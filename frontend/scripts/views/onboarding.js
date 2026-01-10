@@ -4,11 +4,16 @@
  */
 
 import api from '../services/api.js';
-import { AppState } from '../core/state.js';
+import { appState } from '../core/state.js';
 
 document.addEventListener('DOMContentLoaded', async () => {
+    // Hydrate auth state from localStorage (important on first load after redirect)
+    await appState.init().catch(() => {
+        // api interceptor handles redirect on 401
+    });
+
     // Ensure user is logged in
-    if (!AppState.isAuthenticated()) {
+    if (!localStorage.getItem('token') || !appState.isAuthenticated()) {
         window.location.href = '/pages/auth/login.html';
         return;
     }

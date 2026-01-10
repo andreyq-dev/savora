@@ -1,5 +1,6 @@
 // frontend/scripts/views/login.js
 import { login } from '../services/auth.js';
+import api from '../services/api.js';
 
 document.addEventListener('DOMContentLoaded', () => {
     const loginForm = document.getElementById('login-form');
@@ -19,8 +20,20 @@ document.addEventListener('DOMContentLoaded', () => {
             try {
                 const result = await login(username, password);
                 console.log('Login successful:', result);
-                // Redirect to the dashboard
-                window.location.href = '/pages/dashboard/overview.html';
+
+                // Decide next page before showing the dashboard.
+                // If chef profile doesn't exist yet (404), send to onboarding.
+                try {
+                    await api.get('/chefs/profile');
+                    window.location.href = '/pages/dashboard/overview.html';
+                } catch (err) {
+                    if (err?.response?.status === 404) {
+                        window.location.href = '/pages/chef/onboarding.html';
+                    } else {
+                        // Non-profile-related errors: fallback to dashboard.
+                        window.location.href = '/pages/dashboard/overview.html';
+                    }
+                }
             } catch (error) {
                 console.error('Login failed:', error);
                 const message = error?.message || error?.error || 'Login failed. Please check your credentials and try again.';

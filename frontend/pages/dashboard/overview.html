@@ -35,14 +35,6 @@
 
                     <!-- Right Section (Desktop) -->
                     <div class="navbar-right hide-mobile">
-                        <!-- Notifications -->
-                        <button type="button" class="notification-btn" aria-label="View notifications">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                                <path d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0" stroke-linecap="round" stroke-linejoin="round"/>
-                            </svg>
-                            <span class="notification-badge">3</span>
-                        </button>
-
                         <!-- User Menu -->
                         <div class="user-menu">
                             <button class="user-menu-btn" id="user-menu-button" aria-haspopup="true" aria-expanded="false">
@@ -50,8 +42,6 @@
                                 <span class="hide-mobile">Chef User</span>
                             </button>
                             <div class="user-menu-dropdown" id="user-menu-dropdown">
-                                <a href="/pages/dashboard/profile.html">Your Profile</a>
-                                <a href="/pages/dashboard/settings.html">Settings</a>
                                 <a href="#" id="logout-btn">Sign Out</a>
                             </div>
                         </div>
@@ -97,8 +87,8 @@
         <div class="main-container">
             <!-- Page Header -->
             <div class="page-header">
-                <h1 class="page-title">Dashboard Overview</h1>
-                <p class="page-description">Welcome back! Here's what's happening with your catering business.</p>
+                <h1 class="page-title">Dashboard</h1>
+                <p class="page-description">Quick snapshot of your account.</p>
             </div>
 
             <!-- Content Grid -->
@@ -109,8 +99,8 @@
                         <h3 class="card-title">Total Clients</h3>
                     </div>
                     <div class="card-body">
-                        <div style="font-size: 2.5rem; font-weight: bold; color: var(--color-primary);">24</div>
-                        <p style="color: var(--color-gray-600); margin: 0;">Active clients</p>
+                        <div id="stat-total-clients" style="font-size: 2.5rem; font-weight: bold; color: var(--color-primary);">—</div>
+                        <p style="color: var(--color-gray-600); margin: 0;">Clients in your list</p>
                     </div>
                 </div>
 
@@ -119,8 +109,8 @@
                         <h3 class="card-title">Active Menus</h3>
                     </div>
                     <div class="card-body">
-                        <div style="font-size: 2.5rem; font-weight: bold; color: var(--color-secondary);">12</div>
-                        <p style="color: var(--color-gray-600); margin: 0;">Published menus</p>
+                        <div id="stat-active-menus" style="font-size: 2.5rem; font-weight: bold; color: var(--color-secondary);">—</div>
+                        <p style="color: var(--color-gray-600); margin: 0;">Active / published menus</p>
                     </div>
                 </div>
 
@@ -129,8 +119,8 @@
                         <h3 class="card-title">Pending Quotations</h3>
                     </div>
                     <div class="card-body">
-                        <div style="font-size: 2.5rem; font-weight: bold; color: var(--color-tertiary);">5</div>
-                        <p style="color: var(--color-gray-600); margin: 0;">Awaiting response</p>
+                        <div id="stat-pending-quotations" style="font-size: 2.5rem; font-weight: bold; color: var(--color-tertiary);">—</div>
+                        <p style="color: var(--color-gray-600); margin: 0;">Draft or sent</p>
                     </div>
                 </div>
             </div>
@@ -140,10 +130,7 @@
                 <h2 style="font-size: var(--font-size-2xl); margin-bottom: var(--spacing-4);">Recent Activity</h2>
                 <div class="card">
                     <div class="card-body">
-                        <p style="color: var(--color-gray-600);">This is where recent activity will be displayed...</p>
-                        <p style="color: var(--color-gray-500); font-size: var(--font-size-sm);">
-                            Upcoming appointments, new quotation requests, client messages, etc.
-                        </p>
+                        <p style="color: var(--color-gray-600); margin: 0;">Recent activity coming soon.</p>
                     </div>
                 </div>
             </div>
@@ -168,5 +155,6 @@
     </footer>
 
     <script type="module" src="/scripts/core/app.js"></script>
+    <script type="module" src="/scripts/views/overview.js"></script>
 </body>
 </html>
