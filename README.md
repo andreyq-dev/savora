@@ -5,8 +5,8 @@
 [![Python](https://img.shields.io/badge/Python-3.11+-blue.svg)](https://python.org)
 [![Flask](https://img.shields.io/badge/Flask-3.0+-green.svg)](https://flask.palletsprojects.com/)
 [![PostgreSQL](https://img.shields.io/badge/PostgreSQL-15+-blue.svg)](https://postgresql.org)
-[![Tests](https://img.shields.io/badge/Tests-296%20passing-brightgreen.svg)]()
-[![Coverage](https://img.shields.io/badge/Coverage-75%25-yellow.svg)]()
+[![Tests](https://img.shields.io/badge/Tests-497%20passing-brightgreen.svg)]()
+[![Coverage](https://img.shields.io/badge/Coverage-85%25-brightgreen.svg)]()
 
 ## 📋 Overview
 
@@ -26,7 +26,7 @@ A layered full-stack application with:
 - **RESTful API** with 60 validated endpoints
 - **JWT authentication** with role-based access control
 - **Modular architecture** separating concerns across 10 business modules
-- **Comprehensive test suite** with 296 tests (unit + integration)
+- **Comprehensive test suite** with 497 tests (unit + integration)
 
 ---
 
@@ -154,24 +154,34 @@ Backend runs at: `http://localhost:5000`
 ```bash
 cd frontend
 
-# Install dependencies
-pnpm install  # or npm install
+# Install dependencies (choose one)
+pnpm install
+# or
+npm install
+# or (no global installs; uses the repo's pinned pnpm version)
+npx -y pnpm@10.20.0 install
 
-# Start development server
+# Start development server (choose one)
 pnpm dev
+# or
+npm run dev
+# or
+npx -y pnpm@10.20.0 dev
 ```
 
-Frontend runs at: `http://localhost:5173`
+Frontend runs at: `http://localhost:3000`
+
+API calls from the frontend should use `/api/*` (Vite proxies to the backend at `http://localhost:5000` via `frontend/vite.config.js`).
 
 ---
 
 ## 🧪 Testing
 
 ```bash
-# Unit tests (161 tests)
+# Unit tests (358 tests)
 pytest tests/unit -v
 
-# Integration tests (135 tests) - requires Docker
+# Integration tests (139 tests) - requires Docker
 docker compose up -d
 pytest tests/integration -v
 docker compose down -v
@@ -182,13 +192,7 @@ pytest --cov=app --cov-report=html tests/unit
 
 ### Test Coverage
 
-| Module | Coverage |
-|--------|----------|
-| auth | 85% |
-| chefs | 78% |
-| dishes | 82% |
-| quotations | 71% |
-| **Overall** | **75%** |
+Unit-test coverage is currently **85%** overall (see `backend/htmlcov/index.html` for details).
 
 ---
 
@@ -199,8 +203,8 @@ pytest --cov=app --cov-report=html tests/unit
 | Backend API | ✅ Complete (60 endpoints) |
 | Database Schema | ✅ Complete with migrations |
 | Authentication | ✅ JWT + role-based access |
-| Unit Tests | ✅ 161 tests passing |
-| Integration Tests | ✅ 135 tests passing |
+| Unit Tests | ✅ 358 tests passing |
+| Integration Tests | ✅ 139 tests passing |
 | Frontend Auth | ✅ Login/Register |
 | Frontend Dashboard | 🔄 In Progress |
 | Production Deployment | ⏳ Planned |

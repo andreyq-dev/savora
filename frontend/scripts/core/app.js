@@ -1,6 +1,5 @@
 // App initialization and core functionality
 import { appState } from './state.js';
-import { protectPage } from './auth-guard.js';
 
 console.log('LyfterCook Frontend - v1.0.0');
 
@@ -38,15 +37,20 @@ if (logoutBtn) {
 // (Auth pages should not include this script.)
 const path = window.location.pathname || '';
 if (path.includes('/pages/dashboard/')) {
-  protectPage();
-
-  // Hydrate user display (best-effort).
+  // Best-effort user hydration for UI (auth guarding is done per-page).
   appState.init().catch(() => {});
   appState.subscribe((s) => {
     const nameEl = document.querySelector('#user-menu-button span.hide-mobile');
     if (!nameEl) return;
 
-    nameEl.textContent = s.user?.username || 'Chef';
+    const displayName = s.user?.username || s.user?.email || s.user?.name || 'Chef';
+    nameEl.textContent = displayName;
+
+    const avatarEl = document.querySelector('#user-menu-button img.user-avatar');
+    if (avatarEl) {
+      const encoded = encodeURIComponent(displayName);
+      avatarEl.src = `https://ui-avatars.com/api/?name=${encoded}&background=06d6a0&color=fff`;
+    }
   });
 }
 
