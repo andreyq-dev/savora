@@ -2,6 +2,9 @@
 
 > Professional catering platform for managing chef services, menus, and client quotations
 
+**Author**: [Andrey Quesada](https://github.com/andreyques41) | **GitHub**: [andreyques41/caterpro](https://github.com/andreyques41/caterpro)
+
+[![Status](https://img.shields.io/badge/Status-Nearly%20Complete-orange.svg)](#-project-status)
 [![Python](https://img.shields.io/badge/Python-3.11+-blue.svg)](https://python.org)
 [![Flask](https://img.shields.io/badge/Flask-3.0+-green.svg)](https://flask.palletsprojects.com/)
 [![PostgreSQL](https://img.shields.io/badge/PostgreSQL-15+-blue.svg)](https://postgresql.org)
@@ -236,7 +239,65 @@ Unit-test coverage is currently **85%** overall (see `backend/htmlcov/index.html
 
 ---
 
-## 📄 License
+## � Troubleshooting
+
+### Common Issues
+
+**Database connection error**
+```bash
+# Verify PostgreSQL is running and accessible
+psql -U postgres -c "SELECT version();"
+
+# Check credentials in config/.env
+DB_USER=postgres
+DB_PASSWORD=your-password
+DB_HOST=localhost
+DB_PORT=5432
+```
+
+**Redis connection error**
+```bash
+# Start Redis server
+redis-server
+
+# Or with Docker
+docker run -d -p 6379:6379 redis:7-alpine
+
+# Check Redis is running
+redis-cli ping
+```
+
+**Module import errors**
+```bash
+# Ensure virtual environment is activated
+which python  # Should show venv/bin/python
+
+# Reinstall dependencies
+pip install -r requirements.txt
+```
+
+**Migration errors**
+```bash
+# Reset database (development only)
+alembic downgrade base
+alembic upgrade head
+
+# Or reinitialize
+python scripts/init_db.py
+```
+
+**Port already in use**
+```bash
+# Backend (port 5000)
+python run.py --port 8000
+
+# Frontend (port 3000)
+npm run dev -- --port 3001
+```
+
+---
+
+## �📄 License
 
 MIT License - See [LICENSE](LICENSE) for details.
 
