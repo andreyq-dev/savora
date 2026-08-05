@@ -41,7 +41,7 @@ class IcsEvent:
             [
                 "BEGIN:VCALENDAR",
                 "VERSION:2.0",
-                "PRODID:-//LyfterCook//EN",
+                "PRODID:-//Savora//EN",
                 "CALSCALE:GREGORIAN",
                 "BEGIN:VEVENT",
                 f"UID:{_ics_escape(self.uid)}",
@@ -82,7 +82,7 @@ class CalendarIcsService:
         if backend_url and getattr(appointment, "id", None) is not None:
             url = backend_url.rstrip("/") + f"/appointments/{appointment.id}"
 
-        uid = f"appointment-{appointment.id}@lyftercook" if getattr(appointment, "id", None) else "appointment@lyftercook"
+        uid = f"appointment-{appointment.id}@Savora" if getattr(appointment, "id", None) else "appointment@Savora"
         location = getattr(appointment, "location", "") or ""
 
         return IcsEvent(
@@ -94,3 +94,4 @@ class CalendarIcsService:
             location=str(location),
             url=str(url),
         )
+

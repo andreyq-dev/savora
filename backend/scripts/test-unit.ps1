@@ -10,7 +10,8 @@ $env:APP_ENV = "local"
 $env:FLASK_ENV = "testing"
 
 Write-Host "Running Unit Tests (LOCAL database)" -ForegroundColor Magenta
-Write-Host "   Database: localhost:5432/lyftercook_test" -ForegroundColor Cyan
+Write-Host "   Database: localhost:5432/savora_test" -ForegroundColor Cyan
 Write-Host ""
 
 python -m pytest tests/unit -v
+

@@ -130,13 +130,13 @@ class EmailService:
 
     @staticmethod
     def send_welcome_email(*, to_email: str, username: str) -> bool:
-        subject = "Welcome to LyfterCook"
+        subject = "Welcome to Savora"
         html = (
-            "<h2>Welcome to LyfterCook</h2>"
+            "<h2>Welcome to Savora</h2>"
             f"<p>Hi <strong>{username}</strong>, your account is ready.</p>"
             "<p>You can now log in and start creating menus, quotations, and appointments.</p>"
         )
-        text = f"Welcome to LyfterCook, {username}. Your account is ready."
+        text = f"Welcome to Savora, {username}. Your account is ready."
         return EmailService.send_email(
             to_email=to_email,
             subject=subject,
@@ -205,3 +205,46 @@ class EmailService:
             html_content=html_body,
             text_content=text_body,
         )
+
+    @staticmethod
+    def send_quotation_request_notification(
+        *,
+        chef_email: str,
+        visitor_name: str,
+        visitor_email: str,
+        event_description: str,
+        chef_name: str = "",
+        visitor_phone: Optional[str] = None,
+        event_date: Optional[str] = None,
+        guests: Optional[int] = None,
+        budget: Optional[float] = None,
+    ) -> bool:
+        html_body = EmailService._render_template(
+            "quotation_request_notification.html",
+            chef_name=chef_name,
+            visitor_name=visitor_name,
+            visitor_email=visitor_email,
+            visitor_phone=visitor_phone,
+            event_description=event_description,
+            event_date=event_date,
+            guests=guests,
+            budget=budget,
+        )
+        text_parts = [f"New quotation request from {visitor_name} ({visitor_email})."]
+        if visitor_phone:
+            text_parts.append(f"Phone: {visitor_phone}.")
+        if event_date:
+            text_parts.append(f"Event date: {event_date}.")
+        if guests is not None:
+            text_parts.append(f"Guests: {guests}.")
+        if budget is not None:
+            text_parts.append(f"Budget: ${budget}.")
+        text_parts.append(f"Event: {event_description}")
+        text_body = " ".join(text_parts)
+        return EmailService.send_email(
+            to_email=chef_email,
+            subject=f"Nueva solicitud de cotización de {visitor_name}",
+            html_content=html_body,
+            text_content=text_body,
+        )
+

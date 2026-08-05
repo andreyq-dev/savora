@@ -60,7 +60,7 @@ docker compose down -v
 
 | Service | Port | Database/Config |
 |---------|------|-----------------|
-| PostgreSQL 16 | 5433 → 5432 | `lyftercook_docker` |
+| PostgreSQL 16 | 5433 → 5432 | `Savora_docker` |
 | Redis 7 | 6380 → 6379 | `testredispassword` |
 
 **Note:** Ports are offset to avoid conflicts with local installations.
@@ -98,3 +98,4 @@ Detailed validation results for each module (status codes, behaviors, data struc
 - **Fresh state:** Use `docker compose down -v` to reset database between runs
 - **Debug failures:** Check server terminal for backend errors
 - **Admin tests:** Default admin is auto-seeded if missing (username: `admin`, password: `Admin123!@#`)
+

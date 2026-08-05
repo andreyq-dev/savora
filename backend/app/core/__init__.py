@@ -1,1 +1,2 @@
-"""Core package for LyfterCook application."""
+"""Core package for Savora application."""
+

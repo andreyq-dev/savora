@@ -1,4 +1,4 @@
-# 🍳 LyfterCook Documentation
+# 🍳 Savora Documentation
 
 Central hub for all project documentation - consolidated monorepo structure.
 
@@ -76,6 +76,8 @@ npx -y pnpm@10.20.0 dev
 | [Frontend Setup](../frontend/README.md) | Quick start commands |
 | [Integration Tests](../backend/tests/integration/VALIDATION_RESULTS.md) | Validation results |
 
+**Note for new backend setup:** Create the PostgreSQL database named savora manually before running init_db (and savora_test for unit tests).
+
 ---
 
 ## 🏛️ Architecture Decisions
@@ -109,3 +111,4 @@ npx -y pnpm@10.20.0 dev
 
 **Last Updated:** January 5, 2026  
 **Structure:** Consolidated monorepo (backend/ + frontend/)
+

@@ -1,0 +1,37 @@
+services:
+  - type: web
+    name: savora-backend
+    runtime: docker
+    rootDir: backend
+    dockerfilePath: ./Dockerfile
+    envVars:
+      - key: FLASK_ENV
+        value: production
+      - key: APP_ENV
+        value: production
+      - key: DATABASE_URL
+        sync: false  # Set manually: postgresql://user:pass@host/db (from Neon.tech)
+      - key: SECRET_KEY
+        generateValue: true
+      - key: JWT_SECRET_KEY
+        generateValue: true
+      - key: ALLOWED_ORIGINS
+        sync: false  # Set manually: https://savora-frontend.onrender.com
+      - key: REDIS_HOST
+        sync: false  # Set manually from RedisLabs
+      - key: REDIS_PORT
+        sync: false
+      - key: REDIS_PASSWORD
+        sync: false
+      - key: FRONTEND_URL
+        sync: false  # Set manually: https://savora-frontend.onrender.com
+
+  - type: web
+    name: savora-frontend
+    env: static
+    rootDir: frontend
+    buildCommand: npm install && npm run build
+    staticPublishPath: dist
+    envVars:
+      - key: VITE_API_URL
+        value: https://savora-backend.onrender.com

@@ -1,4 +1,4 @@
-# Vite - Guía de Uso para LyfterCook
+# Vite - Guía de Uso para Savora
 
 **Última actualización**: Enero 2, 2026
 
@@ -6,7 +6,7 @@
 
 ## ¿Qué es Vite?
 
-Vite es el **dev server** y **bundler** que usamos en LyfterCook. Proporciona:
+Vite es el **dev server** y **bundler** que usamos en Savora. Proporciona:
 - ⚡ Hot Module Replacement (HMR) - cambios instantáneos sin refrescar
 - 📦 ES Modules nativos
 - 🔄 Proxy al backend (evita CORS)
@@ -299,7 +299,7 @@ Este repo usa `pnpm-lock.yaml`.
 
 ```powershell
 # 1. Abrir proyecto
-cd C:\Users\ANDY\repos\DUADlyfter\M2_FinalProject\LyfterCook\frontend
+cd <repo>\frontend
 
 # 2. Iniciar Vite
 npm run dev

@@ -1,8 +1,8 @@
 /* frontend/styles/dashboard.css */
 
 .dashboard-header {
-    background: #333;
-    color: #fff;
+    background: rgb(11, 19, 21);
+    color: rgb(245, 245, 245);
     padding: 1rem;
     display: flex;
     justify-content: space-between;
@@ -15,7 +15,7 @@
 }
 
 .dashboard-header nav a {
-    color: #fff;
+    color: rgba(245, 245, 245, 0.8);
     text-decoration: none;
     margin: 0 10px;
     padding: 5px 10px;
@@ -24,13 +24,14 @@
 
 .dashboard-header nav a.active,
 .dashboard-header nav a:hover {
-    background: #555;
+    background: rgba(239, 201, 164, 0.2);
+    color: rgb(239, 201, 164);
 }
 
 .dashboard-header #logout-button {
-    background: #d9534f;
+    background: rgb(15, 29, 34);
     border: none;
-    color: white;
+    color: rgb(245, 245, 245);
     padding: 8px 15px;
     cursor: pointer;
     border-radius: 4px;
@@ -45,7 +46,8 @@ section {
     background: #fff;
     padding: 20px;
     border-radius: 5px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    box-shadow: none;
+    border: 1px solid var(--color-gray-200);
 }
 
 .form-row {
@@ -62,7 +64,7 @@ section {
 textarea {
     width: 100%;
     padding: 8px;
-    border: 1px solid #ddd;
+    border: 1px solid var(--color-gray-300);
     border-radius: 4px;
     box-sizing: border-box;
     font-family: inherit;
@@ -75,17 +77,17 @@ table {
 }
 
 thead {
-    background-color: #f2f2f2;
+    background-color: #f8f7f3;
 }
 
 th, td {
     padding: 12px;
     text-align: left;
-    border-bottom: 1px solid #ddd;
+    border-bottom: 1px solid var(--color-gray-200);
 }
 
 .delete-button {
-    background: #d9534f;
+    background: #b42318;
     color: white;
     border: none;
     padding: 5px 10px;
@@ -94,8 +96,8 @@ th, td {
 }
 
 .edit-button {
-    background: #f0ad4e;
-    color: white;
+    background: rgb(239, 201, 164);
+    color: #2d2620;
     border: none;
     padding: 5px 10px;
     cursor: pointer;
@@ -105,36 +107,40 @@ th, td {
 
 /* Modal Styles */
 .modal {
+    display: none;
     position: fixed;
-    z-index: 1;
+    z-index: 9999;
     left: 0;
     top: 0;
     width: 100%;
     height: 100%;
     overflow: auto;
-    background-color: rgba(0,0,0,0.4);
+    background-color: rgba(0,0,0,0.6);
+    align-items: center;
+    justify-content: center;
 }
 
 .modal-content {
     background-color: #fefefe;
-    margin: 10% auto;
     padding: 20px;
-    border: 1px solid #888;
-    width: 80%;
-    max-width: 500px;
-    border-radius: 5px;
+    border: 1px solid var(--color-gray-200);
+    border-radius: 8px;
+    box-shadow: var(--shadow-lg);
+    max-height: 85vh;
+    overflow-y: auto;
+    position: relative;
 }
 
 .close-button {
-    color: #aaa;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
+    color: inherit;
+    float: none;
+    font-size: inherit;
+    font-weight: inherit;
 }
 
 .close-button:hover,
 .close-button:focus {
-    color: black;
+    color: inherit;
     text-decoration: none;
     cursor: pointer;
 }

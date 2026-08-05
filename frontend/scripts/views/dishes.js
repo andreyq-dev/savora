@@ -17,6 +17,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const imagePreview = document.getElementById('image-preview');
     const submitButton = addDishForm.querySelector('button[type="submit"]');
 
+    const createModal = document.getElementById('create-dish-modal');
+    const openCreateButton = document.getElementById('open-create-dish');
+    const closeCreateButton = document.getElementById('create-dish-close');
+
     // Modal Elements
     const editModal = document.getElementById('edit-dish-modal');
     const editDishForm = document.getElementById('edit-dish-form');
@@ -83,7 +87,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
                 loadingMessage.style.display = 'none';
             } else {
-                loadingMessage.textContent = 'No dishes found. Add one using the form above.';
+                loadingMessage.textContent = 'No dishes found. Use “New Dish” to add one.';
             }
         } catch (error) {
             console.error('Failed to fetch dishes:', error);
@@ -106,7 +110,10 @@ document.addEventListener('DOMContentLoaded', () => {
             name: addDishForm.name.value,
             price: addDishForm.price.value,
             description: addDishForm.description.value,
-            photo_url: photoUrlInput.value,
+            category: addDishForm.category.value,
+            prep_time: Number(addDishForm.prep_time.value),
+            servings: Number(addDishForm.servings.value),
+            photo_url: photoUrlInput.value || null,
         };
 
         try {
@@ -114,6 +121,7 @@ document.addEventListener('DOMContentLoaded', () => {
             addDishForm.reset();
             imagePreview.style.display = 'none';
             photoUrlInput.value = '';
+            createModal.style.display = 'none';
             fetchAndRenderDishes();
         } catch (error) {
             console.error('Failed to add dish:', error);
@@ -158,6 +166,9 @@ document.addEventListener('DOMContentLoaded', () => {
             editDishForm['edit-dish-name'].value = dish.name;
             editDishForm['edit-dish-price'].value = dish.price;
             editDishForm['edit-dish-description'].value = dish.description || '';
+            editDishForm['edit-dish-category'].value = dish.category || '';
+            editDishForm['edit-dish-prep-time'].value = dish.prep_time || '';
+            editDishForm['edit-dish-servings'].value = dish.servings || '';
 
             editModal.style.display = 'block';
         } catch (error) {
@@ -181,6 +192,9 @@ document.addEventListener('DOMContentLoaded', () => {
             name: editDishForm['edit-dish-name'].value,
             price: editDishForm['edit-dish-price'].value,
             description: editDishForm['edit-dish-description'].value,
+            category: editDishForm['edit-dish-category'].value || undefined,
+            prep_time: editDishForm['edit-dish-prep-time'].value ? Number(editDishForm['edit-dish-prep-time'].value) : undefined,
+            servings: editDishForm['edit-dish-servings'].value ? Number(editDishForm['edit-dish-servings'].value) : undefined,
         };
 
         try {
@@ -226,11 +240,22 @@ document.addEventListener('DOMContentLoaded', () => {
     editDishForm.addEventListener('submit', handleUpdateDish);
     dishesContainer.addEventListener('click', handleCardClick);
 
+    openCreateButton.addEventListener('click', () => {
+        errorMessage.textContent = '';
+        errorMessage.style.display = 'none';
+        createModal.style.display = 'block';
+    });
+
+    closeCreateButton.addEventListener('click', () => createModal.style.display = 'none');
+
     // Modal close listeners
     closeButton.addEventListener('click', () => editModal.style.display = 'none');
     window.addEventListener('click', (event) => {
         if (event.target == editModal) {
             editModal.style.display = 'none';
+        }
+        if (event.target == createModal) {
+            createModal.style.display = 'none';
         }
     });
 

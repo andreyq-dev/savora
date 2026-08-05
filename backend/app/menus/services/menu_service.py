@@ -76,7 +76,10 @@ class MenuService:
         logger.info(f"Created menu {menu.id} for chef {chef.id}")
         
         # Invalidate related caches
-        self.cache_helper.invalidate(f"*:user:{user_id}:*")  # Invalidate all user's menus
+        self.cache_helper.invalidate(
+            f"list:chef:{chef.id}:active:True",
+            f"list:chef:{chef.id}:active:False"
+        )
         invalidate_cache('route:public:menus:*')  # Clear public route cache
         
         return menu

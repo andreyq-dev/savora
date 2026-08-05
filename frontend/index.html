@@ -3,26 +3,169 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LyfterCook - Connect with Professional Chefs</title>
+    <title>Savora - Conecta con chefs profesionales</title>
     <link rel="stylesheet" href="/styles/main.css">
     <link rel="stylesheet" href="/styles/components.css">
 </head>
-<body>
-    <div class="container hero">
-        <h1 class="hero-title">Welcome to LyfterCook</h1>
-        <p class="hero-subtitle">
-            Connect with professional chefs for your next event. Get custom quotes, explore menus, and book appointments.
-        </p>
-        
-        <div style="display: flex; flex-direction: column; align-items: center; gap: var(--spacing-3);">
-            <div style="display: flex; gap: var(--spacing-4); flex-wrap: wrap; justify-content: center;">
-                <a href="/pages/auth/login.html" class="btn btn-primary">Login</a>
-                <a href="/pages/auth/register.html" class="btn btn-primary">Register</a>
+<body class="theme-monks">
+    <header class="public-nav">
+        <div class="container public-nav-inner">
+            <a class="public-logo" href="/" aria-label="Savora">
+                <img src="/utils/logo.svg" alt="Savora logo">
+            </a>
+            <div class="public-nav-links">
+                <a href="/">Inicio</a>
+                <a href="/pages/public/chefs.html">Chefs</a>
             </div>
-            <a href="/pages/dashboard/overview.html" class="btn btn-outline">Explore the dashboard</a>
+            <div class="public-nav-actions">
+                <a href="/pages/auth/login.html" class="btn btn-outline">Iniciar sesión</a>
+                <a href="/pages/auth/register.html" class="btn btn-primary">Crear cuenta</a>
+            </div>
         </div>
-    </div>
-    
+    </header>
+
+    <main>
+        <section class="public-hero" data-reveal="up">
+            <div class="container public-hero-grid">
+                <div data-reveal="up">
+                    <span class="section-label" data-reveal="down">[BIENVENIDO]</span>
+                    <h1 class="public-hero-title" data-reveal="up">Donde los <span class="accent-text">antojos</span> encuentran su <span class="accent-text">chef</span> ideal</h1>
+                    <p class="public-hero-subtitle" data-reveal="up">
+                        Savora te conecta con chefs profesionales para crear experiencias memorables. Explora menús curados, solicita cotizaciones y reserva fácilmente.
+                    </p>
+                    <div class="public-cta" data-reveal="up">
+                        <a href="/pages/public/chefs.html" class="btn btn-primary">Explorar chefs</a>
+                        <a href="/pages/auth/login.html" class="btn btn-outline">Iniciar sesión</a>
+                    </div>
+                    <div class="public-rating" data-reveal="up">
+                        <span class="rating-score">4.8/5</span>
+                        <span>Calificación promedio de eventos realizados</span>
+                    </div>
+                </div>
+                <div class="public-hero-media" data-reveal="down">
+                    <div class="hero-image-grid">
+                        <img class="hero-image" src="https://images.unsplash.com/photo-1498579809087-ef1e558fd1da?auto=format&fit=crop&w=800&q=80" alt="Plated gourmet dish">
+                        <img class="hero-image" src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=800&q=80" alt="Chef preparing food">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="public-section" data-reveal="up">
+            <div class="container">
+                <div class="public-section-header" data-reveal="up">
+                    <span class="section-label" data-reveal="down">[POR QUÉ SAVORA]</span>
+                    <h2 class="public-section-title" data-reveal="up">Servicio elegante para quienes buscan experiencias culinarias inolvidables.</h2>
+                    <p class="public-section-text" data-reveal="up">Desde el descubrimiento hasta la entrega, cada paso está pensado para sentirse premium y personal.</p>
+                </div>
+                <div class="features-grid">
+                    <div class="feature-card" data-reveal="up">
+                        <div class="feature-icon">🥘</div>
+                        <h3 class="feature-title">Menús curados</h3>
+                        <p class="feature-text">Platos de temporada y menús a medida para tu evento.</p>
+                    </div>
+                    <div class="feature-card" data-reveal="down">
+                        <div class="feature-icon">🕯️</div>
+                        <h3 class="feature-title">Servicio elegante</h3>
+                        <p class="feature-text">Chefs y equipos profesionales que elevan cada reunión.</p>
+                    </div>
+                    <div class="feature-card" data-reveal="up">
+                        <div class="feature-icon">📋</div>
+                        <h3 class="feature-title">Cotizaciones claras</h3>
+                        <p class="feature-text">Precios transparentes con respuestas rápidas y expectativas claras.</p>
+                    </div>
+                    <div class="feature-card" data-reveal="down">
+                        <div class="feature-icon">⭐</div>
+                        <h3 class="feature-title">Reseñas confiables</h3>
+                        <p class="feature-text">Opiniones reales de clientes que ya reservaron con Savora.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="public-section" data-reveal="up">
+            <div class="container">
+                <div class="public-section-header" data-reveal="up">
+                    <span class="section-label" data-reveal="down">[MENÚS DESTACADOS]</span>
+                    <h2 class="public-section-title" data-reveal="up">Saborea cada momento.</h2>
+                    <p class="public-section-text" data-reveal="up">Descubre menús ideales para cenas íntimas, recepciones y grandes celebraciones.</p>
+                </div>
+                <div class="menu-grid" id="featured-menus"></div>
+                <p id="featured-menus-empty" class="helper-text" style="margin-top: var(--spacing-4);">Cargando menús...</p>
+            </div>
+        </section>
+
+        <section class="public-section" data-reveal="up">
+            <div class="container">
+                <div class="public-section-header" data-reveal="up">
+                    <span class="section-label" data-reveal="down">[TESTIMONIOS]</span>
+                    <h2 class="public-section-title" data-reveal="up">Lo que dicen nuestros comensales.</h2>
+                </div>
+                <div class="testimonial-grid">
+                    <div class="testimonial-card" data-reveal="up">
+                        <p class="testimonial-text">“El menú se sintió hecho a medida, la presentación fue impecable y nuestros invitados aún lo comentan.”</p>
+                        <div class="testimonial-author">
+                            <span class="testimonial-avatar">JM</span>
+                            <span>Jessica M. · Evento privado</span>
+                        </div>
+                    </div>
+                    <div class="testimonial-card" data-reveal="down">
+                        <p class="testimonial-text">“Reserva fluida, precios transparentes y el chef superó expectativas.”</p>
+                        <div class="testimonial-author">
+                            <span class="testimonial-avatar">AD</span>
+                            <span>Alonso D. · Cena corporativa</span>
+                        </div>
+                    </div>
+                    <div class="testimonial-card" data-reveal="up">
+                        <p class="testimonial-text">“Desde la preparación hasta el servicio, todo se sintió elevado y sin esfuerzo.”</p>
+                        <div class="testimonial-author">
+                            <span class="testimonial-avatar">KW</span>
+                            <span>Kristin W. · Boda</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="public-section" data-reveal="up">
+            <div class="container">
+                <div class="cta-panel" data-reveal="up">
+                    <div>
+                        <span class="section-label" data-reveal="down">[RESERVA]</span>
+                        <h2 class="public-section-title" data-reveal="up">Reserva tu chef hoy.</h2>
+                        <p class="public-section-text" data-reveal="up">Cuéntanos sobre tu evento y te conectamos con el equipo ideal.</p>
+                    </div>
+                    <div class="public-cta" data-reveal="up">
+                        <a href="/pages/auth/register.html" class="btn btn-primary">Comenzar reserva</a>
+                        <a href="/pages/public/chefs.html" class="btn btn-outline">Ver chefs</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="public-footer" data-reveal="up">
+        <div class="container public-footer-grid">
+            <div>
+                <div class="footer-title">Contacto</div>
+                <p class="footer-text">hello@savora.com</p>
+                <p class="footer-text">+1 (555) 234-8890</p>
+            </div>
+            <div>
+                <div class="footer-title">Explora</div>
+                <p class="footer-text">Chefs · Menús · Experiencias</p>
+                <p class="footer-text">Precios · FAQs · Reseñas</p>
+            </div>
+            <div>
+                <div class="footer-title">Horarios</div>
+                <p class="footer-text">Lun–Jue: 9:00 AM – 10:00 PM</p>
+                <p class="footer-text">Vie–Dom: 10:00 AM – 11:30 PM</p>
+            </div>
+        </div>
+    </footer>
+
     <script type="module" src="/scripts/core/app.js"></script>
+    <script type="module" src="/scripts/core/main.js"></script>
+    <script type="module" src="/scripts/views/scroll-reveal.js"></script>
 </body>
 </html>

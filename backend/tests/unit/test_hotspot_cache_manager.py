@@ -60,7 +60,7 @@ def cache_manager(monkeypatch):
     monkeypatch.setattr(cm.redis, "Redis", lambda **kwargs: _FakeRedis())
 
     # Ensure key prefix is stable (conftest already sets REDIS_KEY_PREFIX, but settings is imported).
-    cm.settings.REDIS_KEY_PREFIX = "lyftercook:test"
+    cm.settings.REDIS_KEY_PREFIX = "Savora:test"
 
     return cm.CacheManager()
 
@@ -121,3 +121,4 @@ def test_cached_decorator_caches_none(monkeypatch):
     assert maybe("missing") is None
     # Under the decorator, None should be cached to avoid repeated function calls.
     assert calls["n"] == 1
+

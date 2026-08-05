@@ -1,4 +1,4 @@
-# Start LyfterCook backend with LOCAL environment configuration
+# Start Savora backend with LOCAL environment configuration
 param(
 	[switch]$ResetDb
 )
@@ -13,8 +13,8 @@ Set-Location $BackendRoot
 $env:APP_ENV = "local"
 $env:FLASK_ENV = "development"
 
-Write-Host "Starting LyfterCook Backend (LOCAL environment)" -ForegroundColor Green
-Write-Host "   PostgreSQL: localhost:5432/lyftercook" -ForegroundColor Cyan
+Write-Host "Starting Savora Backend (LOCAL environment)" -ForegroundColor Green
+Write-Host "   PostgreSQL: localhost:5432/Savora" -ForegroundColor Cyan
 Write-Host "   Redis: Cloud instance" -ForegroundColor Cyan
 Write-Host ""
 
@@ -26,3 +26,4 @@ if ($ResetDb) {
 }
 
 python run.py
+

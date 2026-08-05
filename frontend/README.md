@@ -1,6 +1,9 @@
-# 🍳 LyfterCook Frontend
+# 🍳 Savora Frontend
 
-Vanilla JavaScript frontend for the LyfterCook platform.
+Vanilla JavaScript frontend for the Savora platform.
+
+## Deferred (Post-MVP)
+- Scraper module UI (sources, scraping, compare, cleanup) is deferred for a future release.
 
 ## 🚀 Quick Start
 

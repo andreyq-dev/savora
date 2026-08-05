@@ -20,7 +20,7 @@ Este documento contiene:
 
 ### 1.1 Extracto del Enunciado Original
 
-> LyfterCook es una plataforma en línea diseñada para chefs, que les permite realizar una gestión integral de clientes, platillos, cotizaciones y menús. A través de LyfterCook, los chefs pueden crear cotizaciones y menús, que pueden enviarse por correo electrónico a los clientes en formato PDF.
+> Savora es una plataforma en línea diseñada para chefs, que les permite realizar una gestión integral de clientes, platillos, cotizaciones y menús. A través de Savora, los chefs pueden crear cotizaciones y menús, que pueden enviarse por correo electrónico a los clientes en formato PDF.
 >
 > Adicionalmente, existirá un landing page para que usuarios externos puedan ver la lista de chefs y ver su perfil con sus menús e información, y contactar a los chefs mediante un contáctanos.
 
@@ -33,10 +33,10 @@ Este documento contiene:
 | 3 | **Gestión de Menús** | CRUD con estados activos/inactivos | ✅ Implementado |
 | 4 | **Gestión de Cotizaciones** | CRUD completo, pueden o no incluir menú | ✅ Implementado |
 | 5 | **PDF de Cotización** | Generar PDF de cotización | ✅ Implementado |
-| 6 | **Envío por Email** | Enviar cotización PDF por correo al cliente | ❌ **NO IMPLEMENTADO** |
+| 6 | **Envío por Email** | Enviar cotización PDF por correo al cliente | ✅ Implementado |
 | 7 | **Landing Page** | Lista de chefs pública | ✅ Implementado |
 | 8 | **Perfil Público de Chef** | Ver perfil con menús e información | ✅ Implementado |
-| 9 | **Contáctanos** | Formulario de contacto para usuarios externos | ❌ **NO IMPLEMENTADO** |
+| 9 | **Contáctanos** | Formulario de contacto para usuarios externos | ✅ Implementado |
 
 ### 1.3 Páginas del Enunciado
 
@@ -52,27 +52,27 @@ Este documento contiene:
 
 ### 1.4 Gaps Críticos Identificados
 
-#### GAP-1: Envío de Email (❌ BLOQUEADOR)
-**Descripción**: El enunciado indica que las cotizaciones "pueden enviarse por correo electrónico a los clientes en formato PDF". Actualmente:
+#### GAP-1: Envío de Email (✅ CERRADO)
+**Descripción**: El enunciado indica que las cotizaciones "pueden enviarse por correo electrónico a los clientes en formato PDF". Estado actual:
 - ✅ `GET /quotations/:id/pdf` genera el PDF
-- ❌ No existe servicio de envío de email
-- ❌ No existe endpoint `POST /quotations/:id/send`
+- ✅ `POST /quotations/:id/send` implementado en `quotation_controller.py`
+- ✅ `EmailService` en `backend/app/core/services/email_service.py` (Mailtrap SMTP)
+- ✅ Template HTML: `backend/app/core/templates/quotation_email.html`
+- ✅ Modal de envío en frontend: `frontend/scripts/views/quotation-detail.js`
 
-**Impacto**: Funcionalidad core incompleta
+#### GAP-2: Formulario de Contacto (✅ CERRADO)
+**Descripción**: El enunciado menciona "contactar a los chefs mediante un contáctanos". Estado actual:
+- ✅ `POST /public/contact` implementado en `public_controller.py`
+- ✅ Schema de validación: `backend/app/public/schemas/contact_schema.py`
+- ✅ Template de notificación: `backend/app/core/templates/contact_notification.html`
+- ✅ Formulario en frontend: `frontend/pages/public/chef-profile.html` + `public-chef-profile.js`
 
-#### GAP-2: Formulario de Contacto (❌ BLOQUEADOR)
-**Descripción**: El enunciado menciona "contactar a los chefs mediante un contáctanos". Actualmente:
-- ❌ No existe `POST /public/contact`
-- ❌ No existe servicio de notificación al chef
-
-**Impacto**: Flujo de adquisición de clientes incompleto
-
-#### GAP-3: Onboarding de Perfil Chef (⚠️ UX)
-**Descripción**: Cuando un chef se registra, debe crear su perfil antes de poder usar la plataforma.
-- ✅ Backend lo valida correctamente (retorna 400 si no hay perfil)
-- ❌ Frontend no guía al usuario a crear perfil
-
-**Impacto**: Usuario bloqueado sin saber qué hacer
+#### GAP-3: Onboarding de Perfil Chef (✅ CERRADO)
+**Descripción**: Cuando un chef se registra, debe crear su perfil antes de poder usar la plataforma. Estado actual:
+- ✅ Backend retorna 404 si no hay perfil (validación correcta)
+- ✅ `frontend/pages/chef/onboarding.html` con formulario de creación de perfil
+- ✅ Auth guard redirige automáticamente a onboarding si el perfil no existe
+- ✅ Login detecta ausencia de perfil y redirige a onboarding
 
 ---
 
@@ -233,11 +233,11 @@ Content-Type: application/json
 # Email Configuration
 SMTP_HOST=smtp.gmail.com
 SMTP_PORT=587
-SMTP_USER=notifications@lyftercook.com
+SMTP_USER=notifications@Savora.com
 SMTP_PASS=your-app-password
 SMTP_USE_TLS=true
-FROM_EMAIL=notifications@lyftercook.com
-FROM_NAME=LyfterCook
+FROM_EMAIL=notifications@Savora.com
+FROM_NAME=Savora
 ```
 
 ---
@@ -665,3 +665,4 @@ La **Fase B** (usuarios cliente autenticados) es una extensión que va más all�
 **Documento creado por**: Frontend Agent  
 **Para implementación por**: Main Agent / Backend Agent  
 **Fecha**: 2 de Enero, 2026
+

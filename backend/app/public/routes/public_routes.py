@@ -32,6 +32,19 @@ def get_chef_profile(chef_id: int):
     return PublicController.get_chef_profile(chef_id)
 
 
+@public_bp.route("/chefs/<int:chef_id>/menus", methods=["GET"])
+@cache_response(ttl=300, key_prefix='public:chefs:menus')
+def get_chef_menus(chef_id: int):
+    """
+    Get published menus for a specific chef (paginated)
+    Query params: page, per_page
+    ---
+    Public endpoint (no authentication required)
+    Cached for 5 minutes
+    """
+    return PublicController.get_chef_menus(chef_id)
+
+
 # ==================== Search Routes ====================
 
 @public_bp.route("/search", methods=["GET"])
@@ -60,6 +73,18 @@ def get_filters():
 
 
 # ==================== Menu & Dish Routes ====================
+
+@public_bp.route("/menus", methods=["GET"])
+@cache_response(ttl=300, key_prefix='public:menus:list')
+def get_menus():
+    """
+    Get published menus list
+    Query params: page, per_page
+    ---
+    Public endpoint (no authentication required)
+    Cached for 5 minutes
+    """
+    return PublicController.get_menus()
 
 @public_bp.route("/menus/<int:menu_id>", methods=["GET"])
 @cache_response(ttl=600, key_prefix='public:menus:detail')
@@ -91,3 +116,9 @@ def get_dish_details(dish_id: int):
 def submit_contact_form():
     """POST /public/contact - Submit contact form to reach a chef."""
     return PublicController.submit_contact_form()
+
+
+@public_bp.route("/quotations", methods=["POST"])
+def request_quotation():
+    """POST /public/quotations - Submit a quotation request to a chef (no auth required)."""
+    return PublicController.submit_quotation_request()

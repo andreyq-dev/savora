@@ -96,7 +96,7 @@ def seed_admin():
 
 if __name__ == "__main__":
     print("=" * 60)
-    print("LyfterCook - Seed Default Admin User")
+    print("Savora - Seed Default Admin User")
     print("=" * 60)
     
     seed_admin()
@@ -104,3 +104,4 @@ if __name__ == "__main__":
     print("=" * 60)
     print("Admin seeding completed")
     print("=" * 60)
+

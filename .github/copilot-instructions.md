@@ -1,19 +1,19 @@
-# LyfterCook Project - Workspace Scope
+# Savora Project - Workspace Scope
 
 ## ⚠️ CRITICAL: Workspace Boundaries
 
-**This workspace contains ONLY the LyfterCook project:**
-- **Root**: `c:\Users\ANDY\repos\DUADlyfter\M2_FinalProject\LyfterCook`
+**This workspace contains ONLY the Savora project:**
+- **Root**: `c:\Users\ANDY\repos\DUADlyfter\M2_FinalProject\Savora`
 - **Folders**: `backend/`, `frontend/`, `docs/`, `.github/`
 
 ### DO NOT Reference Files Outside This Folder
 - ❌ Parent directory: `M2_FinalProject/`
 - ❌ Sibling projects in `DUADlyfter/`
-- ❌ Any files outside the LyfterCook root
+- ❌ Any files outside the Savora root
 
 ### Workspace Structure
 ```
-LyfterCook/                           ← WORKSPACE ROOT (focus here)
+Savora/                           ← WORKSPACE ROOT (focus here)
 ├── .github/
 │   └── copilot-instructions-*.md     ← Agent instructions
 ├── .vscode/
@@ -52,7 +52,7 @@ The user will use `@workspace` with context to activate a specific agent. For ex
 
 ## Project Overview
 
-**LyfterCook** - A platform connecting chefs with clients for custom catering services.
+**Savora** - A platform connecting chefs with clients for custom catering services.
 
 ### Tech Stack
 - **Backend**: Flask 3.0 + PostgreSQL 16 + Redis 7 + SQLAlchemy 2.0
@@ -107,32 +107,34 @@ docker compose down -v
 ## Key Files to Read
 
 ### Architecture & Patterns
-- [.github/copilot-instructions-main.md](.github/copilot-instructions-main.md) - Main agent guide
-- [backend/README.md](backend/README.md) - Backend setup
-- [docs/backend/API_DOCUMENTATION.md](docs/backend/API_DOCUMENTATION.md) - API reference
+- [copilot-instructions-main.md](copilot-instructions-main.md) - Main agent guide
+- [../backend/README.md](../backend/README.md) - Backend setup
+- [../docs/backend/API_DOCUMENTATION.md](../docs/backend/API_DOCUMENTATION.md) - API reference
+- [../docs/backend/ARCHITECTURE.md](../docs/backend/ARCHITECTURE.md) - Architecture overview
+- [../docs/backend/CACHE_GUIDE.md](../docs/backend/CACHE_GUIDE.md) - Cache guide
 
 ### Code Organization
-- [backend/app/__init__.py](backend/app/__init__.py) - Application factory
-- [backend/app/blueprints.py](backend/app/blueprints.py) - Blueprint registration
-- [backend/config/settings.py](backend/config/settings.py) - Configuration
+- [../backend/app/__init__.py](../backend/app/__init__.py) - Application factory
+- [../backend/app/blueprints.py](../backend/app/blueprints.py) - Blueprint registration
+- [../backend/config/settings.py](../backend/config/settings.py) - Configuration
 
 ### Testing
-- [tests/TESTING_GUIDE.md](backend/tests/TESTING_GUIDE.md) - Testing patterns
-- [tests/conftest.py](backend/tests/conftest.py) - Shared fixtures
+- [../docs/backend/TESTING_GUIDE.md](../docs/backend/TESTING_GUIDE.md) - Testing patterns
+- [../backend/tests/conftest.py](../backend/tests/conftest.py) - Shared fixtures
 
 ---
 
 ## Critical Rules for All Agents
 
 ### ✅ DO
-1. **Stay within workspace boundaries** - Only reference files in LyfterCook/
+1. **Stay within workspace boundaries** - Only reference files in Savora/
 2. **Follow agent-specific instructions** - Read your copilot-instructions-{role}.md
 3. **Use absolute paths** - Always use full paths from workspace root
 4. **Coordinate with other agents** - Know when to hand off to specialized agents
 5. **Test before committing** - Verify changes don't break existing functionality
 
 ### ❌ DON'T
-1. **Don't reference parent directories** - No files outside LyfterCook/
+1. **Don't reference parent directories** - No files outside Savora/
 2. **Don't break agent boundaries** - Testing Agent owns tests/, Main Agent owns app/
 3. **Don't skip validation** - Always validate inputs and outputs
 4. **Don't modify files without understanding context** - Read related code first
@@ -152,12 +154,13 @@ docker compose down -v
 
 ## Documentation Index
 
-- **API Reference**: [docs/backend/API_DOCUMENTATION.md](docs/backend/API_DOCUMENTATION.md)
-- **Architecture**: [docs/backend/ARCHITECTURE.md](docs/backend/ARCHITECTURE.md)
-- **Cache Guide**: [docs/backend/CACHE_GUIDE.md](docs/backend/CACHE_GUIDE.md)
-- **Testing Guide**: [docs/backend/TESTING_GUIDE.md](docs/backend/TESTING_GUIDE.md)
+- **API Reference**: [../docs/backend/API_DOCUMENTATION.md](../docs/backend/API_DOCUMENTATION.md)
+- **Architecture**: [../docs/backend/ARCHITECTURE.md](../docs/backend/ARCHITECTURE.md)
+- **Cache Guide**: [../docs/backend/CACHE_GUIDE.md](../docs/backend/CACHE_GUIDE.md)
+- **Testing Guide**: [../docs/backend/TESTING_GUIDE.md](../docs/backend/TESTING_GUIDE.md)
 
 ---
 
 **Last Updated**: January 2, 2026  
 **Project Status**: Production-ready backend, all modules validated
+

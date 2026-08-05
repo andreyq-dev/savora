@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Savora | Scraper (Planned)</title>
+    <link rel="stylesheet" href="/styles/main.css">
+    <link rel="stylesheet" href="/styles/components.css">
+    <link rel="stylesheet" href="/styles/layout.css">
+</head>
+<body class="dashboard-layout theme-monks">
+    <div class="dashboard-shell">
+        <aside class="dashboard-sidebar">
+                <a class="sidebar-brand" href="/" aria-label="Savora">
+                    <img src="/utils/logo.svg" alt="Savora logo" class="sidebar-logo">
+                    
+                </a>
+            <nav class="sidebar-nav" aria-label="Dashboard navigation">
+                <a href="/pages/dashboard/overview.html" class="sidebar-link">Dashboard</a>
+                <a href="/pages/dashboard/clients.html" class="sidebar-link">Clients</a>
+                <a href="/pages/dashboard/dishes.html" class="sidebar-link">Dishes</a>
+                <a href="/pages/dashboard/menus.html" class="sidebar-link">Menus</a>
+                <a href="/pages/dashboard/quotations.html" class="sidebar-link">Quotations</a>
+                <a href="/pages/dashboard/appointments.html" class="sidebar-link">Appointments</a>
+            </nav>
+            <div class="sidebar-card">
+                Scraper module is deferred for the MVP and planned for a future release.
+            </div>
+        </aside>
+
+        <div class="dashboard-main">
+            <header class="dashboard-topbar">
+                <h1 class="topbar-title">Scraper (Planned)</h1>
+                <div class="topbar-actions">
+                    <div class="topbar-search">
+                        <svg viewBox="0 0 20 20" fill="currentColor">
+                            <path d="M9 3.5a5.5 5.5 0 1 0 0 11 5.5 5.5 0 0 0 0-11ZM2 9a7 7 0 1 1 12.452 4.391l3.328 3.329a.75.75 0 1 1-1.06 1.06l-3.329-3.328A7 7 0 0 1 2 9Z" clip-rule="evenodd" fill-rule="evenodd"/>
+                        </svg>
+                        <input type="search" placeholder="Search..." aria-label="Search">
+                    </div>
+                    <div class="topbar-user">
+                        <div class="user-menu">
+                            <button class="user-menu-btn" id="user-menu-button" aria-haspopup="true" aria-expanded="false">
+                                <img src="https://ui-avatars.com/api/?name=Chef+User&background=06d6a0&color=fff" alt="User avatar" class="user-avatar">
+                                <span class="hide-mobile">Chef</span>
+                            </button>
+                            <div class="user-menu-dropdown" id="user-menu-dropdown">
+                                <a href="#" id="logout-btn">Sign Out</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <main class="dashboard-content">
+                <div class="main-container">
+                    <div class="page-header">
+                        <h1 class="page-title">Scraper (Planned)</h1>
+                        <p class="page-description">This module is deferred for the MVP and will be implemented later.</p>
+                    </div>
+
+                    <section class="card">
+                        <div class="card-header" style="display:flex;justify-content:space-between;align-items:center;">
+                            <h3 class="card-title">Price Sources</h3>
+                            <button id="open-create-source" class="btn btn-primary">+ New Source</button>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-container">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>Name</th>
+                                            <th>Base URL</th>
+                                            <th>Status</th>
+                                            <th>Notes</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="sources-table-body"></tbody>
+                                </table>
+                            </div>
+                            <p id="sources-loading-message" class="helper-text">Loading price sources...</p>
+                        </div>
+                    </section>
+
+                    <section class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Scrape Ingredient Prices</h3>
+                        </div>
+                        <div class="card-body">
+                            <form id="scrape-form">
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="scrape-ingredient">Ingredient *</label>
+                                        <input type="text" id="scrape-ingredient" name="ingredient_name" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="scrape-force">Force refresh</label>
+                                        <div style="display:flex; align-items:center; gap: var(--spacing-2);">
+                                            <input type="checkbox" id="scrape-force" name="force_refresh">
+                                            <span class="helper-text">Bypass 24h cache</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label>Sources to scrape</label>
+                                    <div id="scrape-source-list" style="display:grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: var(--spacing-2);"></div>
+                                    <small class="helper-text">Leave empty to use all active sources.</small>
+                                </div>
+                                <div style="display:flex; gap: var(--spacing-3); align-items:center;">
+                                    <button type="submit" class="btn btn-primary">Scrape prices</button>
+                                    <span id="scrape-feedback" class="helper-text"></span>
+                                </div>
+                            </form>
+                            <div id="scrape-results" style="margin-top: var(--spacing-4);"></div>
+                        </div>
+                    </section>
+
+                    <section class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Compare Prices</h3>
+                        </div>
+                        <div class="card-body">
+                            <form id="compare-form" class="form-row">
+                                <div class="form-group">
+                                    <label for="compare-ingredient">Ingredient *</label>
+                                    <input type="text" id="compare-ingredient" name="ingredient_name" required>
+                                </div>
+                                <div class="form-group" style="display:flex; align-items:flex-end;">
+                                    <button type="submit" class="btn btn-outline">Compare</button>
+                                </div>
+                            </form>
+                            <div id="compare-results" class="helper-text" style="margin-top: var(--spacing-3);"></div>
+                        </div>
+                    </section>
+
+                    <section class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Browse Scraped Prices</h3>
+                        </div>
+                        <div class="card-body">
+                            <form id="prices-filter-form" class="form-row" style="margin-bottom: var(--spacing-4);">
+                                <div class="form-group">
+                                    <label for="prices-ingredient">Ingredient</label>
+                                    <input type="text" id="prices-ingredient" name="ingredient_name">
+                                </div>
+                                <div class="form-group">
+                                    <label for="prices-source">Source</label>
+                                    <select id="prices-source" name="price_source_id">
+                                        <option value="">All sources</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="prices-age">Max age (hours)</label>
+                                    <input type="number" id="prices-age" name="max_age_hours" min="1" placeholder="24">
+                                </div>
+                                <div class="form-group" style="display:flex; align-items:flex-end;">
+                                    <button type="submit" class="btn btn-outline">Load prices</button>
+                                </div>
+                            </form>
+                            <div id="prices-results"></div>
+                        </div>
+                    </section>
+
+                    <section class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Cleanup Old Prices</h3>
+                        </div>
+                        <div class="card-body">
+                            <form id="cleanup-form" class="form-row">
+                                <div class="form-group">
+                                    <label for="cleanup-days">Delete prices older than (days)</label>
+                                    <input type="number" id="cleanup-days" name="days_old" min="1" value="30">
+                                </div>
+                                <div class="form-group" style="display:flex; align-items:flex-end;">
+                                    <button type="submit" class="btn btn-outline">Run cleanup</button>
+                                </div>
+                            </form>
+                            <div id="cleanup-result" class="helper-text" style="margin-top: var(--spacing-3);"></div>
+                        </div>
+                    </section>
+
+                    <div id="create-source-modal" class="modal" style="display: none;">
+                        <div class="modal-content modal-content-lg">
+                            <div class="modal-header">
+                                <h2 class="modal-title">Create Price Source</h2>
+                                <button type="button" class="modal-close" id="create-source-close" aria-label="Close">&times;</button>
+                            </div>
+                            <div class="modal-body">
+                                <form id="create-source-form">
+                                    <div class="form-row">
+                                        <div class="form-group">
+                                            <label for="source-name">Name *</label>
+                                            <input type="text" id="source-name" name="name" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="source-base-url">Base URL *</label>
+                                            <input type="url" id="source-base-url" name="base_url" required>
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group">
+                                            <label for="source-search-template">Search URL Template *</label>
+                                            <input type="url" id="source-search-template" name="search_url_template" required placeholder="https://site.com/search?q={ingredient}">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="source-product-selector">Product name selector *</label>
+                                            <input type="text" id="source-product-selector" name="product_name_selector" required placeholder=".product-title">
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group">
+                                            <label for="source-price-selector">Price selector *</label>
+                                            <input type="text" id="source-price-selector" name="price_selector" required placeholder=".price">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="source-image-selector">Image selector</label>
+                                            <input type="text" id="source-image-selector" name="image_selector" placeholder=".product-img">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="source-notes">Notes</label>
+                                        <textarea id="source-notes" name="notes" rows="2"></textarea>
+                                    </div>
+                                    <div class="form-group">
+                                        <label style="display:flex; align-items:center; gap: var(--spacing-2);">
+                                            <input type="checkbox" id="source-active" name="is_active" checked>
+                                            Active source
+                                        </label>
+                                    </div>
+                                    <p id="source-error" class="error-message" style="display:none;"></p>
+                                    <div class="modal-footer modal-footer-plain">
+                                        <button type="submit" class="btn btn-primary">Create Source</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="edit-source-modal" class="modal" style="display: none;">
+                        <div class="modal-content modal-content-lg">
+                            <div class="modal-header">
+                                <h2 class="modal-title">Edit Price Source</h2>
+                                <button type="button" class="modal-close" id="edit-source-close" aria-label="Close">&times;</button>
+                            </div>
+                            <div class="modal-body">
+                                <form id="edit-source-form">
+                                    <input type="hidden" id="edit-source-id" name="id">
+                                    <div class="form-row">
+                                        <div class="form-group">
+                                            <label for="edit-source-name">Name *</label>
+                                            <input type="text" id="edit-source-name" name="name" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="edit-source-base-url">Base URL *</label>
+                                            <input type="url" id="edit-source-base-url" name="base_url" required>
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group">
+                                            <label for="edit-source-search-template">Search URL Template *</label>
+                                            <input type="url" id="edit-source-search-template" name="search_url_template" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="edit-source-product-selector">Product name selector *</label>
+                                            <input type="text" id="edit-source-product-selector" name="product_name_selector" required>
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group">
+                                            <label for="edit-source-price-selector">Price selector *</label>
+                                            <input type="text" id="edit-source-price-selector" name="price_selector" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="edit-source-image-selector">Image selector</label>
+                                            <input type="text" id="edit-source-image-selector" name="image_selector">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="edit-source-notes">Notes</label>
+                                        <textarea id="edit-source-notes" name="notes" rows="2"></textarea>
+                                    </div>
+                                    <div class="form-group">
+                                        <label style="display:flex; align-items:center; gap: var(--spacing-2);">
+                                            <input type="checkbox" id="edit-source-active" name="is_active">
+                                            Active source
+                                        </label>
+                                    </div>
+                                    <p id="edit-source-error" class="error-message" style="display:none;"></p>
+                                    <div class="modal-footer modal-footer-plain">
+                                        <button type="submit" class="btn btn-primary">Save Changes</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script type="module" src="/scripts/core/app.js"></script>
+</body>
+</html>

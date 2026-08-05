@@ -9,11 +9,11 @@ services:
   # PostgreSQL Database (temporary for validation)
   postgres:
     image: postgres:16-alpine
-    container_name: lyftercook_postgres_test
+    container_name: savora_postgres_test
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: testpassword
-      POSTGRES_DB: lyftercook_docker
+      POSTGRES_DB: savora_docker
     ports:
       - "5433:5432"  # Use 5433 to avoid conflict with local Postgres
     volumes:
@@ -27,7 +27,7 @@ services:
   # Redis Cache (temporary for validation)
   redis:
     image: redis:7-alpine
-    container_name: lyftercook_redis_test
+    container_name: savora_redis_test
     command: redis-server --requirepass testredispassword
     ports:
       - "6380:6379"  # Use 6380 to avoid conflict with local Redis
@@ -42,3 +42,4 @@ services:
 volumes:
   postgres_data:
   redis_data:
+

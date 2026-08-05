@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Savora | Menus</title>
+    <link rel="stylesheet" href="/styles/main.css">
+    <link rel="stylesheet" href="/styles/components.css">
+    <link rel="stylesheet" href="/styles/layout.css">
+</head>
+<body class="dashboard-layout theme-monks">
+    <div class="dashboard-shell">
+        <aside class="dashboard-sidebar">
+            <a class="sidebar-brand" href="/" aria-label="Savora">
+                <img src="/utils/logo.svg" alt="Savora logo" class="sidebar-logo">
+                
+            </a>
+            <nav class="sidebar-nav" aria-label="Dashboard navigation">
+                <a href="/pages/dashboard/overview.html" class="sidebar-link">Dashboard</a>
+                <a href="/pages/dashboard/clients.html" class="sidebar-link">Clients</a>
+                <a href="/pages/dashboard/dishes.html" class="sidebar-link">Dishes</a>
+                <a href="/pages/dashboard/menus.html" class="sidebar-link active">Menus</a>
+                <a href="/pages/dashboard/quotations.html" class="sidebar-link">Quotations</a>
+                <a href="/pages/dashboard/appointments.html" class="sidebar-link">Appointments</a>
+            </nav>
+            <div class="sidebar-card">
+                Curate seasonal menus to keep your offerings fresh and premium.
+            </div>
+        </aside>
+
+        <div class="dashboard-main">
+            <header class="dashboard-topbar">
+                <h1 class="topbar-title">Menus</h1>
+                <div class="topbar-actions">
+                    <div class="topbar-search">
+                        <svg viewBox="0 0 20 20" fill="currentColor">
+                            <path d="M9 3.5a5.5 5.5 0 1 0 0 11 5.5 5.5 0 0 0 0-11ZM2 9a7 7 0 1 1 12.452 4.391l3.328 3.329a.75.75 0 1 1-1.06 1.06l-3.329-3.328A7 7 0 0 1 2 9Z" clip-rule="evenodd" fill-rule="evenodd"/>
+                        </svg>
+                        <input type="search" placeholder="Search..." aria-label="Search">
+                    </div>
+                    <div class="topbar-user">
+                        <div class="user-menu">
+                            <button class="user-menu-btn" id="user-menu-button" aria-haspopup="true" aria-expanded="false">
+                                <img src="https://ui-avatars.com/api/?name=Chef+User&background=06d6a0&color=fff" alt="User avatar" class="user-avatar">
+                                <span class="hide-mobile">Chef</span>
+                            </button>
+                            <div class="user-menu-dropdown" id="user-menu-dropdown">
+                                <a href="#" id="logout-btn">Sign Out</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <main class="dashboard-content">
+                <div class="main-container">
+            <div class="page-header">
+                <h1 class="page-title">Menus</h1>
+                <p class="page-description">Create and manage your menu collections.</p>
+            </div>
+
+            <section id="menu-list-section" class="card">
+                <div class="card-header card-header-row">
+                    <h3 class="card-title">Your Menus</h3>
+                    <button type="button" class="btn btn-primary" id="open-create-menu">New Menu</button>
+                </div>
+                <div class="card-body">
+                    <div id="menus-container" class="content-grid two-columns"></div>
+                    <p id="loading-message" class="helper-text helper-text-spaced">Loading menus...</p>
+                </div>
+            </section>
+
+            <!-- Edit Modal -->
+            <div id="edit-menu-modal" class="modal" style="display: none;">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h2 class="modal-title">Edit Menu</h2>
+                        <button type="button" class="modal-close close-button" aria-label="Close">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="edit-menu-form">
+                        <input type="hidden" id="edit-menu-id" name="id">
+
+                        <div class="form-group">
+                            <label for="edit-menu-name">Name</label>
+                            <input type="text" id="edit-menu-name" name="name" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="edit-menu-description">Description</label>
+                            <textarea id="edit-menu-description" name="description" rows="3"></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="edit-menu-status">Status</label>
+                            <select id="edit-menu-status" name="status">
+                                <option value="draft">Draft</option>
+                                <option value="published">Published</option>
+                                <option value="seasonal">Seasonal</option>
+                                <option value="archived">Archived</option>
+                            </select>
+                        </div>
+
+                        <p id="edit-error-message" class="error-message" style="display:none;"></p>
+                        <button type="submit" class="btn btn-primary">Save Changes</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Create Menu Modal -->
+            <div id="create-menu-modal" class="modal" style="display: none;">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h2 class="modal-title">Create New Menu</h2>
+                        <button type="button" class="modal-close" id="create-menu-close" aria-label="Close">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="add-menu-form">
+                            <div class="form-group">
+                                <label for="menu-name">Menu Name</label>
+                                <input type="text" id="menu-name" name="name" required placeholder="e.g., Summer BBQ Menu">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="menu-description">Description</label>
+                                <textarea id="menu-description" name="description" rows="3" placeholder="Describe this menu collection..."></textarea>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="menu-status">Status</label>
+                                <select id="menu-status" name="status">
+                                    <option value="draft">Draft</option>
+                                    <option value="published">Published</option>
+                                    <option value="seasonal">Seasonal</option>
+                                    <option value="archived">Archived</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Dishes (optional)</label>
+                                <p class="helper-text modal-subtitle">Select and order dishes for this menu.</p>
+                                <div class="form-inline">
+                                    <button type="button" class="btn btn-outline" id="open-create-dishes">Select dishes</button>
+                                    <span id="create-dishes-summary" class="helper-text">No dishes selected</span>
+                                </div>
+                            </div>
+
+                            <p id="error-message" class="error-message" style="display:none;"></p>
+                            <div class="modal-footer modal-footer-plain">
+                                <button type="submit" class="btn btn-primary">Create Menu</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Dishes Selection Modal -->
+            <div id="manage-dishes-modal" class="modal" style="display:none;">
+                <div class="modal-content modal-content-lg">
+                    <div class="modal-header">
+                        <div>
+                            <h2 class="modal-title" id="manage-dishes-title">Manage Menu Dishes</h2>
+                            <p class="helper-text modal-subtitle">Drag dishes between columns. Order in the right column defines the menu order.</p>
+                        </div>
+                        <button type="button" class="modal-close" id="manage-dishes-close" aria-label="Close">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="modal-grid">
+                            <div class="modal-grid-header">
+                                <div class="modal-panel-header">
+                                    <h3>Available</h3>
+                                    <input id="available-filter" type="text" placeholder="Filter by name..." aria-label="Filter available dishes">
+                                </div>
+                            </div>
+                            <div class="modal-grid-header">
+                                <div class="modal-panel-header">
+                                    <h3>Selected</h3>
+                                    <div class="modal-panel-spacer" aria-hidden="true"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <div id="manage-available-loading" class="helper-text">Loading dishes...</div>
+                                <div id="manage-available" class="modal-panel-content"></div>
+                            </div>
+                            <div>
+                                <div id="manage-selected" class="modal-panel-content"></div>
+                            </div>
+                        </div>
+
+                        <p id="manage-dishes-error" class="error-message" style="display:none; margin-top: var(--spacing-3);"></p>
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-outline" id="manage-dishes-cancel">Cancel</button>
+                            <button type="button" class="btn btn-primary" id="manage-dishes-save">Save</button>
+                        </div>
+                        <input type="hidden" id="manage-menu-id" value="">
+                    </div>
+                </div>
+            </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script type="module" src="/scripts/core/app.js"></script>
+    <script type="module" src="/scripts/views/menus.js"></script>
+</body>
+</html>

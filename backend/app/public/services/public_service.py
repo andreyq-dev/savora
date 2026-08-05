@@ -108,7 +108,63 @@ class PublicService:
             }
         }
 
+    def get_public_chef_menus(self, chef_id: int, page: int = 1, per_page: int = 6) -> Optional[Dict]:
+        """
+        Get published menus for a specific chef with pagination.
+
+        Returns:
+            {
+                "menus": [...],
+                "total": 0,
+                "page": 1,
+                "per_page": 6,
+                "total_pages": 0
+            }
+        """
+        chef = self.repository.get_chef_by_id(chef_id)
+        if not chef:
+            return None
+
+        offset = (page - 1) * per_page
+        menus = self.repository.get_chef_published_menus(chef_id, limit=per_page, offset=offset)
+        total = self.repository.count_chef_published_menus(chef_id)
+        total_pages = (total + per_page - 1) // per_page
+
+        return {
+            "menus": menus,
+            "total": total,
+            "page": page,
+            "per_page": per_page,
+            "total_pages": total_pages
+        }
+
     # ==================== Menu & Dish Discovery ====================
+
+    def get_public_menus(self, page: int = 1, per_page: int = 3) -> Dict:
+        """
+        Get published menus for public listing.
+
+        Returns:
+            {
+                "menus": [...],
+                "total": 0,
+                "page": 1,
+                "per_page": 3,
+                "total_pages": 0
+            }
+        """
+        offset = (page - 1) * per_page
+        menus = self.repository.get_published_menus(limit=per_page, offset=offset)
+        total = self.repository.count_published_menus()
+        total_pages = (total + per_page - 1) // per_page
+
+        return {
+            "menus": menus,
+            "total": total,
+            "page": page,
+            "per_page": per_page,
+            "total_pages": total_pages
+        }
 
     def get_menu_details(self, menu_id: int) -> Optional[Dict]:
         """
@@ -190,6 +246,44 @@ class PublicService:
         )
 
     # ==================== Contact ====================
+
+    def submit_quotation_request(self, data: Dict) -> Dict:
+        """
+        Log a public quotation request and notify the chef by email.
+
+        Always returns success if the chef exists — email delivery is best-effort.
+        """
+        chef_id = data["chef_id"]
+        chef = self.repository.get_chef_by_id(chef_id)
+        if not chef:
+            return {"ok": False, "status": 404, "error": "Chef not found"}
+
+        chef_user = getattr(chef, "user", None)
+        chef_email = getattr(chef_user, "email", None) if chef_user else None
+        chef_name = getattr(chef_user, "username", "") if chef_user else ""
+
+        logger.info(
+            "Quotation request received: chef_id=%s, from=%s (%s), event=%s",
+            chef_id,
+            data["name"],
+            data["email"],
+            data.get("event_description", ""),
+        )
+
+        if chef_email:
+            EmailService.send_quotation_request_notification(
+                chef_email=chef_email,
+                chef_name=chef_name,
+                visitor_name=data["name"],
+                visitor_email=data["email"],
+                visitor_phone=data.get("phone"),
+                event_description=data["event_description"],
+                event_date=data.get("event_date"),
+                guests=data.get("guests"),
+                budget=data.get("budget"),
+            )
+
+        return {"ok": True}
 
     def submit_contact_form(self, data: Dict) -> Dict:
         """Send a contact form notification email to the chef."""

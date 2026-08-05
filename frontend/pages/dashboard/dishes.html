@@ -3,33 +3,42 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Manage Dishes - LyfterCook</title>
+    <title>Savora | Dishes</title>
     <link rel="stylesheet" href="/styles/main.css">
     <link rel="stylesheet" href="/styles/components.css">
     <link rel="stylesheet" href="/styles/layout.css">
 </head>
-<body class="dashboard-layout">
-    <header class="navbar">
-        <div class="navbar-top">
-            <div class="navbar-container">
-                <div class="navbar-content">
-                    <div class="navbar-logo">
-                        <a href="/">
-                            <span>🍽️</span>
-                            <span>LyfterCook</span>
-                        </a>
-                    </div>
+<body class="dashboard-layout theme-monks">
+    <div class="dashboard-shell">
+        <aside class="dashboard-sidebar">
+            <a class="sidebar-brand" href="/" aria-label="Savora">
+                <img src="/utils/logo.svg" alt="Savora logo" class="sidebar-logo">
+                
+            </a>
+            <nav class="sidebar-nav" aria-label="Dashboard navigation">
+                <a href="/pages/dashboard/overview.html" class="sidebar-link">Dashboard</a>
+                <a href="/pages/dashboard/clients.html" class="sidebar-link">Clients</a>
+                <a href="/pages/dashboard/dishes.html" class="sidebar-link active">Dishes</a>
+                <a href="/pages/dashboard/menus.html" class="sidebar-link">Menus</a>
+                <a href="/pages/dashboard/quotations.html" class="sidebar-link">Quotations</a>
+                <a href="/pages/dashboard/appointments.html" class="sidebar-link">Appointments</a>
+            </nav>
+            <div class="sidebar-card">
+                Highlight signature dishes to elevate your menus and client proposals.
+            </div>
+        </aside>
 
-                    <div class="search-mobile hide-desktop">
-                        <div class="search-input-wrapper">
-                            <svg class="search-icon" viewBox="0 0 20 20" fill="currentColor">
-                                <path d="M9 3.5a5.5 5.5 0 1 0 0 11 5.5 5.5 0 0 0 0-11ZM2 9a7 7 0 1 1 12.452 4.391l3.328 3.329a.75.75 0 1 1-1.06 1.06l-3.329-3.328A7 7 0 0 1 2 9Z" clip-rule="evenodd" fill-rule="evenodd"/>
-                            </svg>
-                            <input type="search" placeholder="Search..." aria-label="Search">
-                        </div>
+        <div class="dashboard-main">
+            <header class="dashboard-topbar">
+                <h1 class="topbar-title">Dishes</h1>
+                <div class="topbar-actions">
+                    <div class="topbar-search">
+                        <svg viewBox="0 0 20 20" fill="currentColor">
+                            <path d="M9 3.5a5.5 5.5 0 1 0 0 11 5.5 5.5 0 0 0 0-11ZM2 9a7 7 0 1 1 12.452 4.391l3.328 3.329a.75.75 0 1 1-1.06 1.06l-3.329-3.328A7 7 0 0 1 2 9Z" clip-rule="evenodd" fill-rule="evenodd"/>
+                        </svg>
+                        <input type="search" placeholder="Search..." aria-label="Search">
                     </div>
-
-                    <div class="navbar-right hide-mobile">
+                    <div class="topbar-user">
                         <div class="user-menu">
                             <button class="user-menu-btn" id="user-menu-button" aria-haspopup="true" aria-expanded="false">
                                 <img src="https://ui-avatars.com/api/?name=Chef+User&background=06d6a0&color=fff" alt="User avatar" class="user-avatar">
@@ -40,120 +49,149 @@
                             </div>
                         </div>
                     </div>
-
-                    <button class="mobile-menu-btn hide-desktop" aria-label="Open menu">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                            <path d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" stroke-linecap="round" stroke-linejoin="round"/>
-                        </svg>
-                    </button>
                 </div>
-            </div>
-        </div>
+            </header>
 
-        <div class="navbar-bottom hide-mobile">
-            <div class="navbar-container">
-                <div class="nav-content">
-                    <nav class="nav-links" aria-label="Main navigation">
-                        <a href="/pages/dashboard/overview.html" class="nav-link">Dashboard</a>
-                        <a href="/pages/dashboard/clients.html" class="nav-link">Clients</a>
-                        <a href="/pages/dashboard/dishes.html" class="nav-link active">Dishes</a>
-                    </nav>
+            <main class="dashboard-content">
+                <div class="main-container">
+                    <div class="page-header">
+                        <h1 class="page-title">Dishes</h1>
+                        <p class="page-description">Create, edit, and manage your dishes.</p>
+                    </div>
 
-                    <div class="search-desktop">
-                        <div class="search-input-wrapper">
-                            <svg class="search-icon" viewBox="0 0 20 20" fill="currentColor">
-                                <path d="M9 3.5a5.5 5.5 0 1 0 0 11 5.5 5.5 0 0 0 0-11ZM2 9a7 7 0 1 1 12.452 4.391l3.328 3.329a.75.75 0 1 1-1.06 1.06l-3.329-3.328A7 7 0 0 1 2 9Z" clip-rule="evenodd" fill-rule="evenodd"/>
-                            </svg>
-                            <input type="search" placeholder="Search..." aria-label="Search">
+                    <section id="dish-list-section" class="card" style="margin-top: var(--spacing-6);">
+                        <div class="card-header card-header-row">
+                            <h3 class="card-title">Your Dishes</h3>
+                            <button type="button" class="btn btn-primary" id="open-create-dish">New Dish</button>
+                        </div>
+                        <div class="card-body">
+                            <div id="dishes-container" class="content-grid three-columns"></div>
+                            <p id="loading-message" class="helper-text" style="margin-top: var(--spacing-3);">Loading dishes...</p>
+                        </div>
+                    </section>
+
+                    <div id="create-dish-modal" class="modal" style="display: none;">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h2 class="modal-title">Add New Dish</h2>
+                                <button type="button" class="modal-close" id="create-dish-close" aria-label="Close">&times;</button>
+                            </div>
+                            <div class="modal-body">
+                                <form id="add-dish-form">
+                                    <div class="form-group">
+                                        <label for="dish-name">Name</label>
+                                        <input type="text" id="dish-name" name="name" required>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="dish-price">Price</label>
+                                        <input type="number" id="dish-price" name="price" step="0.01" min="0" required>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="dish-description">Description</label>
+                                        <textarea id="dish-description" name="description" rows="3" required></textarea>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="dish-category">Category</label>
+                                        <select id="dish-category" name="category" required>
+                                            <option value="">Select a category</option>
+                                            <option value="Main Course">Main Course</option>
+                                            <option value="Appetizer">Appetizer</option>
+                                            <option value="Dessert">Dessert</option>
+                                            <option value="Beverage">Beverage</option>
+                                            <option value="Side Dish">Side Dish</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="dish-prep-time">Prep Time (minutes)</label>
+                                        <input type="number" id="dish-prep-time" name="prep_time" min="1" max="1440" required>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="dish-servings">Servings</label>
+                                        <input type="number" id="dish-servings" name="servings" min="1" max="100" required>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="dish-photo">Photo</label>
+                                        <div style="display:flex; gap: var(--spacing-3); align-items: center; flex-wrap: wrap;">
+                                            <button type="button" id="upload-widget" class="btn btn-outline">Upload Image</button>
+                                            <input type="hidden" id="dish-photo-url" name="photo_url">
+                                            <img id="image-preview" src="" alt="Image preview" style="max-width: 200px; display: none; border-radius: var(--radius-lg);"/>
+                                        </div>
+                                    </div>
+
+                                    <p id="error-message" class="error-message" style="display:none;"></p>
+                                    <div class="modal-footer modal-footer-plain">
+                                        <button type="submit" class="btn btn-primary">Add Dish</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="edit-dish-modal" class="modal" style="display: none;">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h2 class="modal-title">Edit Dish</h2>
+                                <button type="button" class="modal-close close-button" aria-label="Close">&times;</button>
+                            </div>
+                            <div class="modal-body">
+                                <form id="edit-dish-form">
+                                <input type="hidden" id="edit-dish-id" name="id">
+
+                                <div class="form-group">
+                                    <label for="edit-dish-name">Name</label>
+                                    <input type="text" id="edit-dish-name" name="name" required>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="edit-dish-price">Price</label>
+                                    <input type="number" id="edit-dish-price" name="price" step="0.01" min="0" required>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="edit-dish-description">Description</label>
+                                    <textarea id="edit-dish-description" name="description" rows="3"></textarea>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="edit-dish-category">Category</label>
+                                    <select id="edit-dish-category" name="category">
+                                        <option value="">Select a category</option>
+                                        <option value="Main Course">Main Course</option>
+                                        <option value="Appetizer">Appetizer</option>
+                                        <option value="Dessert">Dessert</option>
+                                        <option value="Beverage">Beverage</option>
+                                        <option value="Side Dish">Side Dish</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="edit-dish-prep-time">Prep Time (minutes)</label>
+                                    <input type="number" id="edit-dish-prep-time" name="prep_time" min="1" max="1440">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="edit-dish-servings">Servings</label>
+                                    <input type="number" id="edit-dish-servings" name="servings" min="1" max="100">
+                                </div>
+
+                                    <p id="edit-error-message" class="error-message" style="display:none;"></p>
+                                    <div class="modal-footer modal-footer-plain">
+                                        <button type="submit" class="btn btn-primary">Save Changes</button>
+                                    </div>
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            </main>
         </div>
-    </header>
-
-    <main>
-        <div class="main-container">
-            <div class="page-header">
-                <h1 class="page-title">Dishes</h1>
-                <p class="page-description">Create, edit, and manage your dishes.</p>
-            </div>
-
-            <section id="add-dish-form-section" class="card">
-                <div class="card-header">
-                    <h3 class="card-title">Add New Dish</h3>
-                </div>
-                <div class="card-body">
-                    <form id="add-dish-form">
-                        <div class="form-group">
-                            <label for="dish-name">Name</label>
-                            <input type="text" id="dish-name" name="name" required>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="dish-price">Price</label>
-                            <input type="number" id="dish-price" name="price" step="0.01" min="0" required>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="dish-description">Description</label>
-                            <textarea id="dish-description" name="description" rows="3"></textarea>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="dish-photo">Photo</label>
-                            <div style="display:flex; gap: var(--spacing-3); align-items: center; flex-wrap: wrap;">
-                                <button type="button" id="upload-widget" class="btn btn-outline">Upload Image</button>
-                                <input type="hidden" id="dish-photo-url" name="photo_url">
-                                <img id="image-preview" src="" alt="Image preview" style="max-width: 200px; display: none; border-radius: var(--radius-lg);"/>
-                            </div>
-                        </div>
-
-                        <p id="error-message" class="error-message" style="display:none;"></p>
-                        <button type="submit" class="btn btn-primary">Add Dish</button>
-                    </form>
-                </div>
-            </section>
-
-            <section id="dish-list-section" class="card" style="margin-top: var(--spacing-6);">
-                <div class="card-header">
-                    <h3 class="card-title">Your Dishes</h3>
-                </div>
-                <div class="card-body">
-                    <div id="dishes-container" class="content-grid three-columns"></div>
-                    <p id="loading-message" class="helper-text" style="margin-top: var(--spacing-3);">Loading dishes...</p>
-                </div>
-            </section>
-
-            <div id="edit-dish-modal" class="modal" style="display: none;">
-                <div class="modal-content">
-                    <span class="close-button">&times;</span>
-                    <h2>Edit Dish</h2>
-                    <form id="edit-dish-form">
-                        <input type="hidden" id="edit-dish-id" name="id">
-
-                        <div class="form-group">
-                            <label for="edit-dish-name">Name</label>
-                            <input type="text" id="edit-dish-name" name="name" required>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="edit-dish-price">Price</label>
-                            <input type="number" id="edit-dish-price" name="price" step="0.01" min="0" required>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="edit-dish-description">Description</label>
-                            <textarea id="edit-dish-description" name="description" rows="3"></textarea>
-                        </div>
-
-                        <p id="edit-error-message" class="error-message" style="display:none;"></p>
-                        <button type="submit" class="btn btn-primary">Save Changes</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </main>
+    </div>
 
     <script src="https://upload-widget.cloudinary.com/global/all.js" type="text/javascript"></script>
     <script type="module" src="/scripts/core/app.js"></script>

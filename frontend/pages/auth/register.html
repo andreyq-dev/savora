@@ -3,41 +3,64 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register - LyfterCook</title>
+    <title>Register - Savora</title>
     <link rel="stylesheet" href="/styles/main.css">
     <link rel="stylesheet" href="/styles/components.css">
+    <link rel="stylesheet" href="/styles/layout.css">
 </head>
-<body class="auth-page">
-    <div class="auth-card">
-        <div class="auth-header">
-            <h1 class="auth-title">Create your account</h1>
-            <p class="auth-subtitle">Join LyfterCook to manage your catering business.</p>
-        </div>
-
-        <form id="register-form">
-            <div class="form-group">
-                <label for="username">Name</label>
-                <input type="text" id="username" name="username" placeholder="Chef Ana" required>
+<body class="auth-page theme-monks">
+    <div class="auth-shell" data-reveal="up">
+        <section class="auth-visual" data-reveal="down">
+            <div class="auth-brand">Savora</div>
+            <div>
+                <p class="auth-eyebrow" data-reveal="down">Join the platform</p>
+                <h1 class="auth-visual-title" data-reveal="up">Create your account and design unforgettable menus.</h1>
+                <p class="auth-visual-copy" data-reveal="up">Build a refined presence with tools crafted for premium caterers.</p>
+                <ul class="auth-feature-list">
+                    <li><span class="auth-feature-bullet"></span>Guided onboarding</li>
+                    <li><span class="auth-feature-bullet"></span>Client-ready proposals</li>
+                    <li><span class="auth-feature-bullet"></span>Elegant menu management</li>
+                </ul>
             </div>
-            <div class="form-group">
-                <label for="email">Email</label>
-                <input type="email" id="email" name="email" placeholder="chef@example.com" required>
-            </div>
-            <div class="form-group">
-                <label for="password">Password</label>
-                <input type="password" id="password" name="password" placeholder="••••••••" required>
-            </div>
-            <button type="submit" class="btn btn-primary" style="width: 100%;">Register</button>
-        </form>
+            <div class="auth-quote">“Where chefs build lasting client relationships.”</div>
+        </section>
 
-        <p id="error-message" class="error-message" style="display: none;"></p>
+        <div class="auth-card" data-reveal="up">
+            <div class="auth-header" data-reveal="up">
+                <h1 class="auth-title" data-reveal="up">Create your account</h1>
+                <p class="auth-subtitle" data-reveal="up">Join Savora to manage your catering business.</p>
+            </div>
 
-        <div class="auth-links">
-            <span>Already have an account?</span>
-            <a href="/pages/auth/login.html">Login here</a>
+            <form id="register-form">
+                <div class="form-group">
+                    <label for="username">Name</label>
+                    <input type="text" id="username" name="username" placeholder="Chef Ana" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" placeholder="chef@example.com" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" placeholder="••••••••" required>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%;">Register</button>
+            </form>
+
+            <p id="error-message" class="error-message" style="display: none;"></p>
+
+            <div class="auth-divider">or</div>
+
+            <div class="auth-links">
+                <span>Already have an account?</span>
+                <a href="/pages/auth/login.html">Login here</a>
+                <span class="auth-link-separator">·</span>
+                <a href="/">Back to home</a>
+            </div>
         </div>
     </div>
 
     <script type="module" src="/scripts/views/register.js"></script>
+    <script type="module" src="/scripts/views/scroll-reveal.js"></script>
 </body>
 </html>

@@ -1,4 +1,4 @@
-# 🍳 LyfterCook - Development Plan
+# 🍳 Savora - Development Plan
 
 ## 📋 Tech Stack
 
@@ -11,7 +11,7 @@
 - **Images**: Cloudinary SDK
 - **Validation**: Marshmallow
 - **Testing**: pytest + coverage
-- **Scraping**: BeautifulSoup4 + requests (supermarket scraper)
+- **Scraping**: Deferred (Post‑MVP)
 - **Scheduling**: Calendly API / Google Calendar API
 
 ### Frontend
@@ -32,7 +32,7 @@
 
 ### Rate Limiting
 - Implemented Flask-Limiter with a shared limiter instance.
-- Per-route limits applied to auth + scrapers.
+- Per-route limits applied to auth (scrapers deferred).
 - Disabled automatically for test runs (`FLASK_ENV=testing` or `TESTING=True`).
 
 ### Email Sending (SMTP / Mailtrap)
@@ -109,7 +109,7 @@
 - calendly_event_id, google_event_id, notes
 - created_at, updated_at
 
-**11. integrations.scraped_products** (cached product data)
+**11. integrations.scraped_products** (cached product data, deferred / Post‑MVP)
 - id, ingredient_name, store_name, product_name, price, url, image_url
 - last_scraped_at, created_at
 
@@ -222,7 +222,7 @@
 ## �📁 Project Structure
 
 ```
-LyfterCook/
+Savora/
 ├── backend/
 │   ├── app/
 │   │   ├── __init__.py
@@ -264,7 +264,7 @@ LyfterCook/
 │   │   ├── menus/                  # Menu CRUD
 │   │   ├── quotations/             # Quotations + PDF
 │   │   ├── appointments/           # Calendar scheduling
-│   │   ├── scraper/                # Product scraper service
+│   │   ├── scrapers/               # Deferred (Post‑MVP)
 │   │   ├── public/                 # Landing + chef profiles (no auth)
 │   │   │
 │   │   └── core/                   # Shared infrastructure
@@ -301,7 +301,7 @@ LyfterCook/
 │   │   │   ├── test_dishes.py      # 14 tests
 │   │   │   ├── test_menus.py       # 9 tests
 │   │   │   ├── test_quotations.py  # 8 tests
-│   │   │   ├── test_scrapers.py    # 12 tests
+│   │   │   ├── test_scrapers.py    # Deferred (Post‑MVP)
 │   │   │   ├── test_admin.py       # 16 + 43 coverage
 │   │   │   ├── test_public.py      # 15 tests
 │   │   │   └── test_helpers.py     # Utilities
@@ -329,13 +329,8 @@ LyfterCook/
 │   └── utils/                  # Shared utilities
 │
 └── docs/
-    ├── api/
-    │   └── API_DOCUMENTATION.md
-    ├── architecture/
-    │   ├── PROJECT_PLAN.md
-    │   ├── SCHEMA_MIGRATION.md
-    │   ├── CACHE_IMPLEMENTATION.md
-    │   └── ADMIN_ENDPOINTS_DESIGN.md
+    ├── backend/                # Backend docs
+    ├── frontend/               # Frontend docs
     ├── decisions/              # ADRs (Architectural Decision Records)
     └── archive/                # Historical docs
 ```
@@ -417,9 +412,9 @@ app/auth/
 4. ⏳ Frontend: Quotation form + preview
 
 ### **Phase 5: Advanced Features (Week 8-9)** 🔄 IN PROGRESS
-1. ✅ Backend: Ingredients model + scraper service
-2. ✅ Backend: Web scraping (BeautifulSoup) - supermarkets
-3. ⏳ Frontend: Ingredient search + price comparison
+1. ⏳ Backend: Ingredients model + scraper service (Deferred / Post‑MVP)
+2. ⏳ Backend: Web scraping (Deferred / Post‑MVP)
+3. ⏳ Frontend: Ingredient search + price comparison (Deferred / Post‑MVP)
 4. ✅ Backend: Appointments CRUD
 5. ⏳ Backend: Calendly/Google Calendar API
 6. ⏳ Frontend: Calendar widget + booking system
@@ -444,7 +439,7 @@ app/auth/
 
 **Ver documentación completa**: [`API_DOCUMENTATION.md`](./API_DOCUMENTATION.md)
 
-**Total: 60 endpoints implementados y testeados**
+**Total: 57 endpoints activos (Scraper deferred / Post‑MVP)**
 
 ### Auth (4 endpoints)
 - POST /auth/register
@@ -495,10 +490,8 @@ app/auth/
 - PATCH /appointments/:id/status
 - DELETE /appointments/:id
 
-### Scrapers (3 endpoints)
-- POST /scrapers/scrape
-- GET /scrapers/prices
-- GET /scrapers/prices/compare
+### Scrapers (Deferred / Post‑MVP)
+- Scraper endpoints are planned but not available in the current release.
 
 ### Public (9 endpoints)
 - GET /public/chefs
@@ -543,9 +536,8 @@ app/auth/
 - POST /appointments/calendly-webhook
 - GET /appointments/availability
 
-### Scraper (protected)
-- POST /scraper/search (search ingredients)
-- GET /scraper/products/:ingredient_id
+### Scraper (Deferred / Post‑MVP)
+- Scraper endpoints are planned but not available in the current release.
 
 ### Public
 - GET /public/chefs (landing)
@@ -578,7 +570,7 @@ app/auth/
 
 ---
 
-## 🛒 Feature: Supermarket Scraper
+## 🛒 Feature: Supermarket Scraper (Deferred / Post‑MVP)
 
 **Supported supermarkets** (initially):
 - Walmart (basic scraping)
@@ -586,7 +578,7 @@ app/auth/
 
 **Flow**:
 1. Chef adds ingredients to a dish
-2. Scraper system searches prices in supermarkets
+2. Scraper system searches prices in supermarkets (deferred)
 3. Shows price comparison
 4. Direct links to products
 
@@ -645,7 +637,7 @@ python -m http.server 8080
 
 # Database
 psql -U postgres
-CREATE DATABASE lyftercook;
+CREATE DATABASE Savora;
 
 # Initialize schemas and tables
 cd backend
@@ -656,7 +648,7 @@ python scripts\init_db.py
 
 ## ⚠️ Technical Considerations
 
-### Scraper
+### Scraper (Deferred / Post‑MVP)
 - **Legal**: Verify supermarket terms of service
 - **Rate limiting**: Max 10 requests/min per supermarket
 - **Cache**: 24-48h to reduce load
@@ -759,7 +751,7 @@ cache.store_data("product:123", product_data, ttl=3600)
 - Dishes: 10 tests
 - Menus: 9 tests
 - Quotations: 6 tests (1 skipped - backend bug)
-- Scrapers: 14 tests
+- Scrapers: Deferred (Post‑MVP)
 - Public: 15 tests
 
 **Test Structure:**
@@ -847,7 +839,7 @@ pytest tests/unit/ --cov=app --cov-report=html
 | 2: Base Management | ✅ Complete | ✅ Clients, Dishes | ⏳ Pending | ✅ 18 tests |
 | 3: Menus | ✅ Complete | ✅ CRUD | ⏳ Pending | ✅ 9 tests |
 | 4: Quotations | 🔄 Backend Done | ✅ CRUD | ⏳ Pending | ✅ 6 tests |
-| 5: Advanced | 🔄 Backend Done | ✅ Scrapers, Appointments | ⏳ Pending | ✅ 26 tests |
+| 5: Advanced | 🔄 Backend In Progress | ⏳ Scrapers (Deferred), ✅ Appointments | ⏳ Pending | ✅ 26 tests |
 | 6: Public | ✅ Backend Done | ✅ Public API | ⏳ Pending | ✅ 15 tests |
 | 7: Polish | ⏳ Pending | ⏳ Integration | ⏳ Full impl | ⏳ Integration tests |
 
@@ -988,3 +980,4 @@ pytest tests/unit/ --cov=app --cov-report=html
 - [ ] Test disaster recovery scenarios
 
 **📌 Note**: Production security features should be implemented AFTER core functionality is complete and tested in staging environment.
+

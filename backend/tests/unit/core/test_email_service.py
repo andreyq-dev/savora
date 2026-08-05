@@ -239,5 +239,6 @@ class TestEmailServiceWelcomeEmail:
         call_args = mock_smtp_instance.send_message.call_args
         msg = call_args[0][0] if call_args and call_args[0] else None
         assert msg is not None
-        assert msg["Subject"] == "Welcome to LyfterCook"
+        assert msg["Subject"] == "Welcome to Savora"
         assert msg["To"] == "newuser@example.com"
+

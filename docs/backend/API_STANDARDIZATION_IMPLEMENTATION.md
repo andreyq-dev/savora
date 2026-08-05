@@ -7,7 +7,7 @@
 
 ## 📋 Executive Summary
 
-Successfully standardized **ALL 62 non-compliant endpoints** to use Envelope v1 response format across the entire LyfterCook backend API.
+Successfully standardized **ALL 62 non-compliant endpoints** to use Envelope v1 response format across the entire Savora backend API.
 
 ### Before Standardization
 - **Compliant Endpoints**: 2 (3.1%)
@@ -113,11 +113,11 @@ Added explicit descriptive messages to all endpoints that were missing them:
 - `dishes_controller.py`: "Dish retrieved successfully"
 - `menus_controller.py`: "Menu retrieved successfully"
 - `quotations_controller.py`: "Quotation retrieved successfully"
-- `scrapers_controller.py`: Added messages to 4 endpoints:
-  - "Price sources retrieved successfully"
-  - "Price source retrieved successfully"
-  - "Scraped prices retrieved successfully"
-  - "Price comparison for '{ingredient_name}' retrieved successfully"
+- `scrapers_controller.py`: Added messages to 4 endpoints (Deferred / Post‑MVP):
+   - "Price sources retrieved successfully"
+   - "Price source retrieved successfully"
+   - "Scraped prices retrieved successfully"
+   - "Price comparison for '{ingredient_name}' retrieved successfully"
 
 **Impact**: 🎯 **7 endpoints improved with descriptive messages**
 
@@ -145,7 +145,7 @@ Added explicit descriptive messages to all endpoints that were missing them:
 | Menus | 6 | ✅ 100% Compliant |
 | Quotations | 8 | ✅ 100% Compliant |
 | Public | 7 | ✅ 100% Compliant |
-| Scrapers | 10 | ✅ 100% Compliant |
+| Scrapers | 10 | ⏳ Deferred (Post‑MVP) |
 
 ---
 
@@ -254,7 +254,7 @@ if (!response.data.success) {
 
 3. **Database Errors** (152 errors):
    - Not related to our changes
-   - Missing `lyftercook_test` database
+   - Missing `savora_test` database
    - Already documented issue
 
 ### Passing Tests
@@ -373,7 +373,7 @@ if (!response.data.success) {
 8. `backend/app/dishes/controllers/dish_controller.py` ← Dish message
 9. `backend/app/menus/controllers/menu_controller.py` ← Menu message
 10. `backend/app/quotations/controllers/quotation_controller.py` ← Quotation message
-11. `backend/app/scrapers/controllers/scraper_controller.py` ← Scraper messages
+11. `backend/app/scrapers/controllers/scraper_controller.py` ← Scraper messages (Deferred / Post‑MVP)
 
 ### Tests Requiring Updates
 1. `backend/tests/unit/test_admin_controller_more_coverage.py`
@@ -385,3 +385,4 @@ if (!response.data.success) {
 **Implemented By**: Main Agent  
 **Backend Status**: ✅ **PRODUCTION READY**  
 **Next Actions**: Testing Agent updates tests, Frontend Agent updates consumers
+

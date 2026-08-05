@@ -1,6 +1,6 @@
 """
 Application Configuration Module
-Centralized configuration for the LyfterCook application.
+Centralized configuration for the Savora application.
 Loads configuration from .env file for security and flexibility.
 """
 
@@ -53,7 +53,7 @@ DB_USER = os.getenv('DB_USER', 'postgres')
 DB_PASSWORD = os.getenv('DB_PASSWORD', 'postgres')
 DB_HOST = os.getenv('DB_HOST', 'localhost')
 DB_PORT = int(os.getenv('DB_PORT', 5432))
-DB_NAME = os.getenv('DB_NAME', 'lyftercook')
+DB_NAME = os.getenv('DB_NAME', 'savora')
 
 # Schemas organization (no need for env var, defined in models)
 # auth: users, refresh_tokens
@@ -65,14 +65,14 @@ REDIS_HOST = os.getenv('REDIS_HOST', 'localhost')
 REDIS_PORT = int(os.getenv('REDIS_PORT', 6379))
 REDIS_PASSWORD = os.getenv('REDIS_PASSWORD', '')
 REDIS_DB = int(os.getenv('REDIS_DB', 0))
-REDIS_KEY_PREFIX = os.getenv('REDIS_KEY_PREFIX', f"lyftercook:{FLASK_ENV}")
+REDIS_KEY_PREFIX = os.getenv('REDIS_KEY_PREFIX', f"savora:{FLASK_ENV}")
 
 # CORS Configuration
 ALLOWED_ORIGINS = os.getenv('ALLOWED_ORIGINS', 'http://localhost:8080').split(',')
 
 # Default Admin User (for seeding)
 DEFAULT_ADMIN_USERNAME = os.getenv('DEFAULT_ADMIN_USERNAME', 'admin')
-DEFAULT_ADMIN_EMAIL = os.getenv('DEFAULT_ADMIN_EMAIL', 'admin@lyftercook.com')
+DEFAULT_ADMIN_EMAIL = os.getenv('DEFAULT_ADMIN_EMAIL', 'admin@savora.com')
 DEFAULT_ADMIN_PASSWORD = os.getenv('DEFAULT_ADMIN_PASSWORD', 'Admin123!@#')  # CHANGE IN PRODUCTION!
 
 # Cloudinary Configuration
@@ -89,8 +89,11 @@ MAILTRAP_USERNAME = os.getenv('MAILTRAP_USERNAME', '')
 MAILTRAP_PASSWORD = os.getenv('MAILTRAP_PASSWORD', '')
 MAILTRAP_USE_TLS = os.getenv('MAILTRAP_USE_TLS', 'true').strip().lower() in {'1', 'true', 'yes', 'on'}
 
-MAILTRAP_FROM_EMAIL = os.getenv('MAILTRAP_FROM_EMAIL', 'noreply@lyftercook.local')
-MAILTRAP_FROM_NAME = os.getenv('MAILTRAP_FROM_NAME', 'LyfterCook')
+MAILTRAP_FROM_EMAIL = os.getenv('MAILTRAP_FROM_EMAIL', 'noreply@savora.local')
+MAILTRAP_FROM_NAME = os.getenv('MAILTRAP_FROM_NAME', 'Savora')
+
+# Scraper Configuration
+SCRAPER_CURRENCY = os.getenv('SCRAPER_CURRENCY', 'USD')
 
 # Calendly Configuration
 CALENDLY_API_KEY = os.getenv('CALENDLY_API_KEY', '')
@@ -151,6 +154,9 @@ class Settings:
     MAILTRAP_FROM_EMAIL = MAILTRAP_FROM_EMAIL
     MAILTRAP_FROM_NAME = MAILTRAP_FROM_NAME
     
+    # Scraper
+    SCRAPER_CURRENCY = SCRAPER_CURRENCY
+
     # Calendly
     CALENDLY_API_KEY = CALENDLY_API_KEY
     CALENDLY_USER_URI = CALENDLY_USER_URI
@@ -163,10 +169,19 @@ class Settings:
     def get_database_url():
         """
         Build database URL from environment variables.
-        
+
+        Prefers DATABASE_URL (set by Render) over individual DB_* vars.
+        Converts postgres:// to postgresql:// for SQLAlchemy compatibility.
+
         Returns:
             str: PostgreSQL connection URL
         """
+        url = os.environ.get('DATABASE_URL')
+        if url:
+            # Render (and Heroku) provide postgres:// which SQLAlchemy 1.4+ rejects
+            if url.startswith('postgres://'):
+                url = url.replace('postgres://', 'postgresql://', 1)
+            return url
         return f"postgresql://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
     
     @staticmethod
@@ -184,3 +199,4 @@ class Settings:
 
 # Global settings instance
 settings = Settings()
+

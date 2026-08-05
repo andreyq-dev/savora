@@ -5,7 +5,7 @@ from app.public.services import PublicService
 from app.chefs.schemas import ChefPublicSchema
 from app.dishes.schemas import DishResponseSchema
 from app.menus.schemas import MenuResponseSchema
-from app.public.schemas import ContactFormSchema
+from app.public.schemas import ContactFormSchema, QuotationRequestSchema
 from app.core.middleware.request_decorators import validate_json
 
 logger = get_logger(__name__)
@@ -100,7 +100,78 @@ class PublicController:
             logger.error(f"Error fetching chef profile {chef_id}: {str(e)}")
             return error_response("Failed to fetch chef profile", 500)
 
+    @staticmethod
+    def get_chef_menus(chef_id: int):
+        """Get published menus for a chef (paginated)."""
+        try:
+            page = request.args.get("page", default=1, type=int)
+            per_page = request.args.get("per_page", default=6, type=int)
+
+            if page < 1:
+                return error_response("Page must be >= 1", 400)
+            if per_page < 1 or per_page > 50:
+                return error_response("Per page must be between 1 and 50", 400)
+
+            service = PublicController._get_service()
+            result = service.get_public_chef_menus(chef_id, page=page, per_page=per_page)
+
+            if not result:
+                return error_response(f"Chef with ID {chef_id} not found or inactive", 404)
+
+            menu_schema = MenuResponseSchema(many=True)
+            serialized_menus = menu_schema.dump(result["menus"])
+
+            return success_response(
+                data={
+                    "menus": serialized_menus,
+                    "pagination": {
+                        "total": result["total"],
+                        "page": result["page"],
+                        "per_page": result["per_page"],
+                        "total_pages": result["total_pages"]
+                    }
+                },
+                message="Chef menus retrieved successfully"
+            )
+        except Exception as e:
+            logger.error(f"Error fetching chef menus {chef_id}: {str(e)}")
+            return error_response("Failed to fetch chef menus", 500)
+
     # ==================== Menu & Dish Endpoints ====================
+
+    @staticmethod
+    def get_menus():
+        """Get published menus for public listing."""
+        try:
+            page = request.args.get("page", default=1, type=int)
+            per_page = request.args.get("per_page", default=3, type=int)
+
+            if page < 1:
+                return error_response("Page must be >= 1", 400)
+            if per_page < 1 or per_page > 50:
+                return error_response("Per page must be between 1 and 50", 400)
+
+            service = PublicController._get_service()
+            result = service.get_public_menus(page=page, per_page=per_page)
+
+            menu_schema = MenuResponseSchema(many=True)
+            serialized_menus = menu_schema.dump(result["menus"])
+
+            return success_response(
+                data={
+                    "menus": serialized_menus,
+                    "pagination": {
+                        "total": result["total"],
+                        "page": result["page"],
+                        "per_page": result["per_page"],
+                        "total_pages": result["total_pages"]
+                    }
+                },
+                message="Menus retrieved successfully"
+            )
+        except Exception as e:
+            logger.error(f"Error fetching public menus: {str(e)}")
+            return error_response("Failed to fetch menus", 500)
 
     @staticmethod
     def get_menu_details(menu_id: int):
@@ -245,3 +316,27 @@ class PublicController:
         except Exception as e:
             logger.error(f"Error submitting contact form: {str(e)}", exc_info=True)
             return error_response("Failed to submit contact form", 500)
+
+    @staticmethod
+    @validate_json(QuotationRequestSchema)
+    def submit_quotation_request():
+        """Submit a public quotation request to a chef (no auth required)."""
+        try:
+            service = PublicController._get_service()
+            data = request.validated_data
+            result = service.submit_quotation_request(data)
+            if not result["ok"]:
+                return error_response(result["error"], result.get("status", 500))
+
+            return (
+                {
+                    "success": True,
+                    "message": "Tu solicitud de cotización ha sido enviada al chef",
+                    "data": None,
+                },
+                201,
+            )
+
+        except Exception as e:
+            logger.error(f"Error submitting quotation request: {str(e)}", exc_info=True)
+            return error_response("Failed to submit quotation request", 500)

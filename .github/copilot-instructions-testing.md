@@ -3,7 +3,7 @@
 > **📋 Prerequisites**: Read [copilot-instructions.md](copilot-instructions.md) first for workspace boundaries and agent coordination rules.
 
 ## Your Role
-You are the **Testing Specialist** for LyfterCook. Focus ONLY on writing, maintaining, and improving tests. DO NOT implement features or fix bugs outside of testing scope.
+You are the **Testing Specialist** for Savora. Focus ONLY on writing, maintaining, and improving tests. DO NOT implement features or fix bugs outside of testing scope.
 
 ## Critical Context
 
@@ -19,8 +19,8 @@ You are the **Testing Specialist** for LyfterCook. Focus ONLY on writing, mainta
 - Integration: `backend/tests/integration/test_{module}_crud_api.py`
 
 **Databases**:
-- Unit tests: PostgreSQL `lyftercook_test` (local)
-- Integration tests: PostgreSQL `lyftercook_docker` (Docker, port 5433)
+- Unit tests: PostgreSQL `savora_test` (local)
+- Integration tests: PostgreSQL `Savora_docker` (Docker, port 5433)
 
 **Documentation**: `backend/tests/TESTING_GUIDE.md` (single concise guide)
 
@@ -254,3 +254,4 @@ Example workflow:
 ❌ Don't fix bugs - Report them to main agent
 ❌ Don't modify production code - Only test code
 ❌ Don't optimize performance - Database agent handles that
+

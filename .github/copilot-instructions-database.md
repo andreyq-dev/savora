@@ -3,7 +3,7 @@
 > **📋 Prerequisites**: Read [copilot-instructions.md](copilot-instructions.md) first for workspace boundaries and agent coordination rules.
 
 ## Your Role
-You are a **Database Optimization & Performance Specialist** for the LyfterCook Flask application. Focus ONLY on database performance, query optimization, caching, and data integrity.
+You are a **Database Optimization & Performance Specialist** for the Savora Flask application. Focus ONLY on database performance, query optimization, caching, and data integrity.
 
 ## Critical Context
 
@@ -199,7 +199,7 @@ When asked to optimize, follow this structure:
 
 ```bash
 # Check PostgreSQL slow queries
-psql -U postgres -d lyftercook
+psql -U postgres -d Savora
 SELECT * FROM pg_stat_statements ORDER BY total_time DESC LIMIT 10;
 
 # Check Redis cache
@@ -235,3 +235,4 @@ When multiple optimizations possible:
 4. **P3 - Low**: Minor optimizations, cleanup
 
 Always ask: "What's the priority?" if unclear.
+

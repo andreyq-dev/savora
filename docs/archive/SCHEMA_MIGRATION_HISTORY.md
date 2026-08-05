@@ -4,10 +4,10 @@
 
 ## 🎉 Estado: Base de datos inicializada exitosamente
 
-La base de datos `lyftercook` fue creada con la siguiente estructura:
+La base de datos `Savora` fue creada con la siguiente estructura:
 
 ```
-lyftercook (database)
+Savora (database)
 ├── auth (schema)
 │   └── users
 ├── core (schema)
@@ -31,7 +31,7 @@ lyftercook (database)
 ## ✅ Lo que se completó:
 
 1. **Configuración actualizada**:
-   - `.env` y `.env.example`: DB_NAME=lyftercook (sin DB_SCHEMA)
+   - `.env` y `.env.example`: DB_NAME=Savora (sin DB_SCHEMA)
    - `settings.py`: Documentación de schemas
 
 2. **Modelos actualizados con schemas**:
@@ -135,3 +135,4 @@ core.quotations (1) →  (N) core.quotation_items
 - ✅ **Indices**: En campos email, username, ingredient_name
 
 **Estado**: ✅ Base de datos 100% operativa y lista para desarrollo de API
+

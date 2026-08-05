@@ -16,7 +16,7 @@ from sqlalchemy.orm import scoped_session, sessionmaker
 os.environ.setdefault('FLASK_ENV', 'testing')
 os.environ.setdefault('TESTING', 'True')
 # Namespace Redis keys per test session to avoid cross-run cache poisoning.
-os.environ.setdefault('REDIS_KEY_PREFIX', f"lyftercook:test:{os.getpid()}")
+os.environ.setdefault('REDIS_KEY_PREFIX', f"Savora:test:{os.getpid()}")
 
 # Add parent directory to path for imports
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
@@ -38,7 +38,7 @@ import bcrypt
 
 # Test database configuration
 # Use PostgreSQL for testing to maintain schema compatibility
-TEST_DATABASE_URI = 'postgresql://postgres:andyshadow41@localhost:5432/lyftercook_test'
+TEST_DATABASE_URI = 'postgresql://postgres:andyshadow41@localhost:5432/savora_test'
 
 
 def utcnow_naive() -> datetime:
@@ -603,3 +603,4 @@ def sample_client_data():
         'company': 'Doe Enterprises',
         'notes': 'Prefers organic ingredients'
     }
+

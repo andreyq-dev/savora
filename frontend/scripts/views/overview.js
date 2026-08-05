@@ -43,19 +43,16 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   if (menusRes.status === 'fulfilled') {
     const menus = unwrapArray(menusRes.value);
-    const activeMenus = menus.filter((m) =>
-      m?.is_active === true ||
-      m?.is_published === true ||
-      m?.status === 'active' ||
-      m?.status === 'published'
-    );
-    setText(elMenus, String(activeMenus.length || menus.length));
+    // Backend menus have 'status' field: draft|published|archived|seasonal
+    const activeMenus = menus.filter((m) => m?.status === 'published');
+    setText(elMenus, String(activeMenus.length));
   } else {
     setText(elMenus, '—');
   }
 
   if (quotationsRes.status === 'fulfilled') {
     const quotations = unwrapArray(quotationsRes.value);
+    // Backend quotations have 'status' field: draft|sent|accepted|rejected|expired
     const pendingQuotations = quotations.filter((q) =>
       q?.status === 'draft' || q?.status === 'sent'
     );

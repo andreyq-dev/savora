@@ -1,6 +1,6 @@
 # Alembic Migrations
 
-This directory contains Alembic database migrations for the LyfterCook project.
+This directory contains Alembic database migrations for the Savora project.
 
 ## Quick Start
 
@@ -69,7 +69,7 @@ alembic heads
 
 ## Schema Organization
 
-LyfterCook uses 3 PostgreSQL schemas:
+Savora uses 3 PostgreSQL schemas:
 
 - **auth**: User authentication and authorization
 - **core**: Business logic (chefs, dishes, menus, etc.)
@@ -126,3 +126,4 @@ def downgrade():
 ## Legacy SQL Migrations
 
 Legacy SQL migrations have been removed. Alembic is the single source of truth for schema changes.
+

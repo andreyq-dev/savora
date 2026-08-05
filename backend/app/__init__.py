@@ -1,5 +1,5 @@
 """
-LyfterCook Application Factory
+Savora Application Factory
 Flask application setup and configuration.
 """
 from flask import Flask, request
@@ -137,9 +137,22 @@ def create_app():
         from flask import jsonify
         from werkzeug.exceptions import HTTPException
         import traceback
+        from sqlalchemy.exc import ProgrammingError
+        from app.core.lib.error_utils import error_response
         
         logger = logging.getLogger(__name__)
         
+        # Handle missing tables (database not initialized / seed not run)
+        if isinstance(e, ProgrammingError):
+            orig = getattr(e, "orig", None)
+            pgcode = getattr(orig, "pgcode", None)
+            if pgcode == "42P01" or "does not exist" in str(orig):
+                logger.error(f"Database not initialized: {str(e)}")
+                return error_response(
+                    "Database not initialized. Run 'scripts/init_db.py' (or apply Alembic migrations) to create schemas and tables.",
+                    500
+                )
+
         # If it's an HTTP exception, let it pass through with correct status code
         if isinstance(e, HTTPException):
             logger.warning(f"HTTP exception: {e.code} - {str(e)}")
@@ -176,7 +189,7 @@ def create_app():
         """
         return {
             'status': 'healthy',
-            'service': 'LyfterCook API',
+            'service': 'Savora API',
             'version': '2.0.0'
         }, 200
     
@@ -191,7 +204,7 @@ def create_app():
         from app.core.cache_manager import CacheManager
         
         checks = {
-            'service': 'LyfterCook API',
+            'service': 'Savora API',
             'status': 'ready',
             'checks': {}
         }
@@ -227,7 +240,7 @@ def create_app():
         Simple check to verify the application process is alive.
         Use for Kubernetes liveness probes.
         """
-        return {'status': 'alive', 'service': 'LyfterCook API'}, 200
+        return {'status': 'alive', 'service': 'Savora API'}, 200
     
     # Test endpoint for debugging
     @app.route('/test', methods=['GET', 'POST'])
@@ -242,6 +255,7 @@ def create_app():
         }, 200
     
     logger = logging.getLogger(__name__)
-    logger.info("LyfterCook application initialized successfully")
+    logger.info("Savora application initialized successfully")
     
     return app
+

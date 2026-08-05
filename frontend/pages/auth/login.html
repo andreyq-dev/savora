@@ -3,37 +3,60 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - LyfterCook</title>
+    <title>Login - Savora</title>
     <link rel="stylesheet" href="/styles/main.css">
     <link rel="stylesheet" href="/styles/components.css">
+    <link rel="stylesheet" href="/styles/layout.css">
 </head>
-<body class="auth-page">
-    <div class="auth-card">
-        <div class="auth-header">
-            <h1 class="auth-title">Login</h1>
-            <p class="auth-subtitle">Access your dashboard to manage clients, dishes, and menus.</p>
-        </div>
-
-        <form id="login-form">
-            <div class="form-group">
-                <label for="username">Email or Username</label>
-                <input type="text" id="username" name="username" placeholder="chef@example.com" required>
+<body class="auth-page theme-monks">
+    <div class="auth-shell" data-reveal="up">
+        <section class="auth-visual" data-reveal="down">
+            <div class="auth-brand">Savora</div>
+            <div>
+                <p class="auth-eyebrow" data-reveal="down">Welcome back</p>
+                <h1 class="auth-visual-title" data-reveal="up">Manage your kitchen with a calm, premium workflow.</h1>
+                <p class="auth-visual-copy" data-reveal="up">Track menus, quotations, and clients in one refined dashboard.</p>
+                <ul class="auth-feature-list">
+                    <li><span class="auth-feature-bullet"></span>Organized client records</li>
+                    <li><span class="auth-feature-bullet"></span>Elegant menus and pricing</li>
+                    <li><span class="auth-feature-bullet"></span>Instant quotation control</li>
+                </ul>
             </div>
-            <div class="form-group">
-                <label for="password">Password</label>
-                <input type="password" id="password" name="password" placeholder="••••••••" required>
+            <div class="auth-quote">“The calmest way to run a catering business.”</div>
+        </section>
+
+        <div class="auth-card" data-reveal="up">
+            <div class="auth-header" data-reveal="up">
+                <h1 class="auth-title" data-reveal="up">Login</h1>
+                <p class="auth-subtitle" data-reveal="up">Access your dashboard to manage clients, dishes, and menus.</p>
             </div>
-            <button type="submit" class="btn btn-primary" style="width: 100%;">Login</button>
-        </form>
 
-        <p id="error-message" class="error-message" style="display: none;"></p>
+            <form id="login-form">
+                <div class="form-group">
+                    <label for="username">Email or Username</label>
+                    <input type="text" id="username" name="username" placeholder="chef@example.com" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" placeholder="••••••••" required>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%;">Login</button>
+            </form>
 
-        <div class="auth-links">
-            <span>Don't have an account?</span>
-            <a href="/pages/auth/register.html">Register here</a>
+            <p id="error-message" class="error-message" style="display: none;"></p>
+
+            <div class="auth-divider">or</div>
+
+            <div class="auth-links">
+                <span>Don't have an account?</span>
+                <a href="/pages/auth/register.html">Register here</a>
+                <span class="auth-link-separator">·</span>
+                <a href="/">Back to home</a>
+            </div>
         </div>
     </div>
 
     <script type="module" src="/scripts/views/login.js"></script>
+    <script type="module" src="/scripts/views/scroll-reveal.js"></script>
 </body>
 </html>

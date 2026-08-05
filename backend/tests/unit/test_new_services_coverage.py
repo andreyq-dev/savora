@@ -20,7 +20,7 @@ def test_calendar_ics_service_appointment_to_event_and_escaping():
     )
 
     event = CalendarIcsService.appointment_to_event(appointment, backend_url="http://localhost:5000/")
-    assert event.uid == "appointment-123@lyftercook"
+    assert event.uid == "appointment-123@Savora"
     assert event.dtstart_utc.tzinfo == timezone.utc
     assert event.dtend_utc.tzinfo == timezone.utc
     # Default duration is 60 when missing/falsey
@@ -228,7 +228,7 @@ def test_email_service_send_email_smtp_success(monkeypatch):
     monkeypatch.setattr(settings, "MAILTRAP_USERNAME", "user")
     monkeypatch.setattr(settings, "MAILTRAP_PASSWORD", "pass")
     monkeypatch.setattr(settings, "MAILTRAP_FROM_EMAIL", "noreply@example.com")
-    monkeypatch.setattr(settings, "MAILTRAP_FROM_NAME", "LyfterCook")
+    monkeypatch.setattr(settings, "MAILTRAP_FROM_NAME", "Savora")
     monkeypatch.setattr(settings, "MAILTRAP_USE_TLS", True)
     ok = EmailService.send_email(
         to_email="a@example.com",
@@ -253,7 +253,7 @@ def test_email_service_send_email_handles_send_exception(monkeypatch):
     monkeypatch.setattr(settings, "MAILTRAP_USERNAME", "user")
     monkeypatch.setattr(settings, "MAILTRAP_PASSWORD", "pass")
     monkeypatch.setattr(settings, "MAILTRAP_FROM_EMAIL", "noreply@example.com")
-    monkeypatch.setattr(settings, "MAILTRAP_FROM_NAME", "LyfterCook")
+    monkeypatch.setattr(settings, "MAILTRAP_FROM_NAME", "Savora")
     ok = EmailService.send_email(
         to_email="a@example.com",
         subject="subject",
@@ -278,7 +278,7 @@ def test_email_service_send_welcome_email_calls_send_email(monkeypatch):
     ok = EmailService.send_welcome_email(to_email="a@example.com", username="andy")
     assert ok is True
     assert called["to_email"] == "a@example.com"
-    assert called["subject"] == "Welcome to LyfterCook"
+    assert called["subject"] == "Welcome to Savora"
     assert "andy" in called["html_content"]
 
 
@@ -306,3 +306,4 @@ def test_limiter_config_branches(monkeypatch):
 
     monkeypatch.setattr(limiter_mod.settings, "FLASK_ENV", "development")
     assert limiter_mod._enabled() is True
+

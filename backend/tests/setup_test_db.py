@@ -18,7 +18,7 @@ def setup_test_database():
         'database': 'postgres'  # Connect to default database first
     }
     
-    test_db_name = 'lyftercook_test'
+    test_db_name = 'savora_test'
     
     try:
         # Connect to PostgreSQL
@@ -78,6 +78,7 @@ def setup_test_database():
 
 if __name__ == '__main__':
     print("=" * 60)
-    print("LyfterCook Test Database Setup")
+    print("Savora Test Database Setup")
     print("=" * 60)
     setup_test_database()
+

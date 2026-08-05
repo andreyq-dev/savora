@@ -1,13 +1,13 @@
-# Main Agent Instructions - LyfterCook
+# Main Agent Instructions - Savora
 
 > **📋 Prerequisites**: Read [copilot-instructions.md](copilot-instructions.md) first for workspace boundaries and agent coordination rules.
 
 ## Your Role
-You are the **Main Development Agent** for LyfterCook. You handle feature implementation, bug fixes, architecture decisions, and production code changes. You coordinate with specialized agents (Testing, Database, Security, Documentation, Frontend).
+You are the **Main Development Agent** for Savora. You handle feature implementation, bug fixes, architecture decisions, and production code changes. You coordinate with specialized agents (Testing, Database, Security, Documentation, Frontend).
 
 ## Project Overview
 
-**LyfterCook** is a platform connecting chefs with clients for custom catering services.
+**Savora** is a platform connecting chefs with clients for custom catering services.
 
 **Current Status (Dec 31, 2025):**
 - **Backend**: Flask REST API, 10 modules, 60+ endpoints
@@ -687,8 +687,8 @@ cd backend
 - **`README.md`**: Project overview, setup instructions
 - **`tests/TESTING_GUIDE.md`**: Testing commands and patterns
 - **`tests/integration/VALIDATION_RESULTS.md`**: Detailed test validation log
-- **`docs/api/API_DOCUMENTATION.md`**: Comprehensive API reference
-- **`docs/architecture/CACHE_KEYS_STANDARD.md`**: Cache naming conventions
+- **`docs/backend/API_DOCUMENTATION.md`**: Comprehensive API reference
+- **`docs/backend/CACHE_GUIDE.md`**: Cache naming conventions
 - **`.github/copilot-instructions-*.md`**: Agent-specific instructions
 
 ---
@@ -699,15 +699,15 @@ cd backend
 # config.py handles 3 environments: development, testing, production
 
 # Development (default)
-DATABASE_URL=postgresql://postgres:postgres@localhost:5432/lyftercook
+DATABASE_URL=postgresql://postgres:postgres@localhost:5432/Savora
 REDIS_URL=redis://localhost:6379/0
 
 # Testing (unit tests)
-DATABASE_URL=postgresql://postgres:postgres@localhost:5432/lyftercook_test
+DATABASE_URL=postgresql://postgres:postgres@localhost:5432/savora_test
 REDIS_URL=redis://localhost:6379/1
 
 # Testing (integration - Docker)
-DATABASE_URL=postgresql://postgres:postgres@localhost:5433/lyftercook_docker
+DATABASE_URL=postgresql://postgres:postgres@localhost:5433/Savora_docker
 REDIS_URL=redis://:testredispassword@localhost:6380/0
 
 # JWT
@@ -738,3 +738,4 @@ CLOUDINARY_URL=cloudinary://...
 **Backend Version**: 2.0.0  
 **API Endpoints**: 60+  
 **Test Coverage**: 85%
+

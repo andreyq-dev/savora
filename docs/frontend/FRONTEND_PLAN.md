@@ -1,4 +1,4 @@
-# LyfterCook Frontend Development Plan
+# Savora Frontend Development Plan
 
 **Last Updated**: January 2, 2026  
 **Status**: Planning Phase  
@@ -62,7 +62,7 @@ frontend/
 │   │   ├── menus.html                   # Menu builder
 │   │   ├── quotations.html              # Quotation management
 │   │   ├── appointments.html            # Calendar view
-│   │   └── scraper.html                 # Ingredient price search
+│   │   └── (deferred) Scraper module    # Post-MVP
 │   └── public/
 │       ├── chefs.html                   # Public chef list
 │       └── chef-profile.html            # Public chef profile
@@ -83,7 +83,7 @@ frontend/
 │   │   ├── menuService.js               # Menu CRUD + dish assignment
 │   │   ├── quotationService.js          # Quotation CRUD + PDF generation
 │   │   ├── appointmentService.js        # Appointment CRUD
-│   │   └── scraperService.js            # Ingredient price search
+│   │   └── (deferred) Scraper service   # Post-MVP
 │   │
 │   ├── components/                      # Reusable UI components
 │   │   ├── Modal.js                     # Generic modal dialog
@@ -102,7 +102,7 @@ frontend/
 │       ├── menusView.js                 # Menus page logic
 │       ├── quotationsView.js            # Quotations page logic
 │       ├── appointmentsView.js          # Appointments page logic
-│       └── scraperView.js               # Scraper page logic
+│       └── (deferred) Scraper view      # Post-MVP
 │
 └── styles/                              # CSS files
     ├── main.css                         # Global styles + CSS variables
@@ -343,27 +343,8 @@ frontend/
 
 ---
 
-#### 3.3 Scraper Page (2 days)
-**File**: `pages/dashboard/scraper.html`
-
-**Features**:
-- Search bar for ingredient name
-- Store selection (checkboxes: Walmart, Kroger, Target)
-- Search button
-- Results table: Ingredient, Store, Price, Link
-- "Search History" section (last 10 searches)
-
-**Components Used**:
-- `LoadingSpinner.js` (search can take 5-10 seconds)
-
-**API Endpoints**:
-- `POST /scrapers/scrape` (trigger scraping)
-- `GET /scrapers/prices/compare?ingredient=...`
-
-**Success Criteria**:
-- Can search ingredient and see prices
-- Links open to store websites
-- Loading spinner shows during search
+#### 3.3 Scraper Page (Deferred)
+**Status**: Post-MVP feature. The scraper UI and workflow are deferred for a future release.
 
 ---
 
@@ -579,12 +560,12 @@ const newDish = await apiClient.post('/dishes', {
 
 | Phase | Status | Completion % | Notes |
 |-------|--------|--------------|-------|
-| Phase 0: Foundation | 🔴 Not Started | 0% | - |
-| Phase 1: Authentication | 🔴 Not Started | 0% | - |
-| Phase 2: Dashboard Core | 🔴 Not Started | 0% | - |
-| Phase 3: Advanced Features | 🔴 Not Started | 0% | - |
-| Phase 4: Public Pages | 🔴 Not Started | 0% | - |
-| Phase 5: Polish | 🔴 Not Started | 0% | - |
+| Phase 0: Foundation | 🟢 Completed | 100% | Vite, CSS tokens, apiClient, auth guard, AppState |
+| Phase 1: Authentication | 🟢 Completed | 100% | login.js, register.js, onboarding.js, auth guard |
+| Phase 2: Dashboard Core | 🟢 Completed | 100% | clients, dishes (+ category/prep_time/servings), menus — CRUD completo |
+| Phase 3: Advanced Features | 🟢 Completed | 100% | quotations, appointments, PDF download, envío de email |
+| Phase 4: Public Pages | 🟢 Completed | 100% | landing page, listado de chefs, perfil público, formulario de contacto |
+| Phase 5: Polish | 🟡 In Progress | 70% | Validación manual QA pendiente (ver FRONTEND_VALIDATION_STATUS.md) |
 
 **Legend**: 🔴 Not Started | 🟡 In Progress | 🟢 Completed
 

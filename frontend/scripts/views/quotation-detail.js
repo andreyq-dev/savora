@@ -152,9 +152,27 @@ document.addEventListener('DOMContentLoaded', async () => {
         document.getElementById('total-amount').textContent = 
             `$${parseFloat(quotation.total_price || quotation.total_amount || 0).toFixed(2)}`;
 
-        // PDF download link
-        document.getElementById('download-pdf-btn').href = 
-            `/api/quotations/${quotation.id}/pdf`;
+        // PDF download — must use fetch to include the Authorization header
+        document.getElementById('download-pdf-btn').addEventListener('click', async (e) => {
+            e.preventDefault();
+            try {
+                const token = localStorage.getItem('token');
+                const response = await fetch(`/api/quotations/${quotation.id}/pdf`, {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                if (!response.ok) throw new Error(`HTTP ${response.status}`);
+                const blob = await response.blob();
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `quotation-${quotation.quotation_number || quotation.id}.pdf`;
+                a.click();
+                URL.revokeObjectURL(url);
+            } catch (error) {
+                console.error('Failed to download PDF:', error);
+                alert('No se pudo descargar el PDF. Por favor intenta de nuevo.');
+            }
+        });
 
         // Notes section
         if (quotation.notes) {
@@ -231,8 +249,6 @@ document.addEventListener('DOMContentLoaded', async () => {
             };
 
             try {
-                // BACKEND TODO: Implement POST /quotations/:id/send
-                // For now, this will fail with 404 until backend is ready
                 const response = await api.post(`/quotations/${quotation.id}/send`, payload);
 
                 // Success
@@ -249,13 +265,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             } catch (error) {
                 console.error('Error sending email:', error);
                 
-                let message = 'Error al enviar email. Por favor intenta de nuevo.';
-                
-                if (error.response?.status === 404) {
-                    message = '⚠️ Backend no implementado aún: POST /quotations/:id/send pendiente';
-                } else {
-                    message = getErrorMessage(error) || message;
-                }
+                const message = getErrorMessage(error) || 'Error al enviar email. Por favor intenta de nuevo.';
                 
                 errorDiv.textContent = message;
                 errorDiv.style.display = 'block';

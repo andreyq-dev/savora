@@ -1,5 +1,6 @@
 from typing import List, Optional, Dict
 from sqlalchemy import and_, or_
+from sqlalchemy.orm import joinedload
 from config.logging import get_logger
 from app.core.database import get_db
 from app.chefs.models.chef_model import Chef
@@ -125,12 +126,40 @@ class PublicRepository:
     def get_chef_menus(chef_id: int, active_only: bool = True) -> List[Menu]:
         """Get all menus for a specific chef"""
         db = PublicRepository._db()
-        query = db.query(Menu).filter(Menu.chef_id == chef_id)
+        query = (
+            db.query(Menu)
+            .options(joinedload(Menu.menu_dishes).joinedload(MenuDish.dish))
+            .filter(Menu.chef_id == chef_id)
+        )
         
         if active_only:
             query = query.filter(Menu.status == MenuStatus.PUBLISHED)
         
         return query.order_by(Menu.created_at.desc()).all()
+
+    @staticmethod
+    def get_chef_published_menus(chef_id: int, limit: int, offset: int) -> List[Menu]:
+        """Get published menus for a specific chef with pagination."""
+        db = PublicRepository._db()
+        query = (
+            db.query(Menu)
+            .options(joinedload(Menu.menu_dishes).joinedload(MenuDish.dish))
+            .filter(Menu.chef_id == chef_id)
+            .filter(Menu.status == MenuStatus.PUBLISHED)
+            .order_by(Menu.created_at.desc())
+        )
+        return query.limit(limit).offset(offset).all()
+
+    @staticmethod
+    def count_chef_published_menus(chef_id: int) -> int:
+        """Count published menus for a specific chef."""
+        db = PublicRepository._db()
+        return (
+            db.query(Menu)
+            .filter(Menu.chef_id == chef_id)
+            .filter(Menu.status == MenuStatus.PUBLISHED)
+            .count()
+        )
 
     @staticmethod
     def get_menu_by_id(menu_id: int) -> Optional[Menu]:
@@ -139,6 +168,24 @@ class PublicRepository:
         return db.query(Menu).filter(
             and_(Menu.id == menu_id, Menu.status == MenuStatus.PUBLISHED)
         ).first()
+
+    @staticmethod
+    def get_published_menus(limit: int = 3, offset: int = 0) -> List[Menu]:
+        """Get published menus for public listing."""
+        db = PublicRepository._db()
+        query = (
+            db.query(Menu)
+            .options(joinedload(Menu.menu_dishes).joinedload(MenuDish.dish))
+            .filter(Menu.status == MenuStatus.PUBLISHED)
+            .order_by(Menu.created_at.desc())
+        )
+        return query.limit(limit).offset(offset).all()
+
+    @staticmethod
+    def count_published_menus() -> int:
+        """Count total published menus for pagination."""
+        db = PublicRepository._db()
+        return db.query(Menu).filter(Menu.status == MenuStatus.PUBLISHED).count()
 
     @staticmethod
     def get_menu_dishes(menu_id: int) -> List[Dict]:

@@ -45,7 +45,7 @@ To see the exact current count in your environment:
 .\venv\Scripts\python.exe -m pytest tests/unit --collect-only -q
 ```
 
-**Database:** Local PostgreSQL `lyftercook_test`
+**Database:** Local PostgreSQL `savora_test`
 
 ### Integration Tests (`tests/integration/`) - 139 tests
 Real HTTP tests against live server + Docker:

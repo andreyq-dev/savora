@@ -1,6 +1,6 @@
 """
 Database Initialization Script
-Creates database schemas and tables for LyfterCook.
+Creates database schemas and tables for Savora.
 
 Organization:
 - auth schema: users
@@ -32,6 +32,7 @@ from app.quotations.models import Quotation, QuotationItem
 from app.appointments.models import Appointment
 from app.scrapers.models import PriceSource, ScrapedPrice
 from app.admin.models.audit_log_model import AuditLog
+from scripts.seed_demo import seed_demo_data
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -90,14 +91,14 @@ def drop_all():
 if __name__ == "__main__":
     import argparse
     
-    parser = argparse.ArgumentParser(description='Initialize LyfterCook database')
+    parser = argparse.ArgumentParser(description='Initialize Savora database')
     parser.add_argument('--drop', action='store_true', 
                        help='Drop all tables and schemas before creating')
     args = parser.parse_args()
     
     try:
         logger.info("=" * 60)
-        logger.info("LyfterCook Database Initialization")
+        logger.info("Savora Database Initialization")
         logger.info("=" * 60)
 
         # Initialize database connection (required for --drop and migrations)
@@ -113,6 +114,7 @@ if __name__ == "__main__":
         
         create_schemas()
         create_tables()
+        seed_demo_data()
         
         logger.info("=" * 60)
         logger.info("Database initialization completed successfully!")
@@ -121,3 +123,4 @@ if __name__ == "__main__":
     except Exception as e:
         logger.error(f"Error initializing database: {e}", exc_info=True)
         sys.exit(1)
+

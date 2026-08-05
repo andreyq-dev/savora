@@ -1,5 +1,5 @@
 {
-  // Workspace settings for LyfterCook project
+  // Workspace settings for Savora project
   "files.exclude": {
     // Exclude common build/cache directories
     "**/__pycache__": true,
@@ -30,3 +30,4 @@
     "**/__pycache__/**": true
   }
 }
+

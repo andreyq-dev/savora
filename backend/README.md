@@ -1,6 +1,6 @@
-# 🍳 LyfterCook Backend
+# 🍳 Savora Backend
 
-REST API for the LyfterCook platform - Professional chef management system.
+REST API for the Savora platform - Professional chef management system.
 
 ## 🚀 Quick Start
 
@@ -24,9 +24,19 @@ pip install -r requirements.txt
 cp config/.env.example config/.env
 # Edit config/.env with your values
 
+# 3.5 Create the database (once)
+# The default database name is 'savora' (local).
+# Create it manually in PostgreSQL before running init_db.
+# Example (psql): CREATE DATABASE savora;
+# If you plan to run unit tests, also create: CREATE DATABASE "savora_test";
+
 # 4. Initialize database
 # Initialize schemas and tables (non-destructive)
 venv\Scripts\python.exe scripts\init_db.py
+
+# (Optional) Demo seed data for MVP showcase
+# Creates a demo chef, dishes, and menus if the database is empty
+venv\Scripts\python.exe scripts\seed_demo.py
 
 # 5. Create admin user
 python scripts/seed_admin.py
@@ -94,7 +104,7 @@ Reads these variables from `config/.env` or `config/.env.docker`:
 
 ## 🗄️ Database Migrations (Single Source of Truth)
 
-LyfterCook uses **Alembic** for schema changes.
+Savora uses **Alembic** for schema changes.
 
 - **Reset / bootstrap (dev/test)**: `venv\Scripts\python.exe scripts\init_db.py --drop`
 - **History**: `venv\Scripts\python.exe -m alembic history`
@@ -150,3 +160,4 @@ backend/
 
 **Tech Stack:** Flask 3.0 | PostgreSQL 16 | Redis 7 | SQLAlchemy 2.0  
 **Last Updated:** January 3, 2026
+

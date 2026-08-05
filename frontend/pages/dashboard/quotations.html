@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Savora | Quotations</title>
+    <link rel="stylesheet" href="/styles/main.css">
+    <link rel="stylesheet" href="/styles/components.css">
+    <link rel="stylesheet" href="/styles/layout.css">
+</head>
+<body class="dashboard-layout theme-monks">
+    <div class="dashboard-shell">
+        <aside class="dashboard-sidebar">
+                <a class="sidebar-brand" href="/" aria-label="Savora">
+                    <img src="/utils/logo.svg" alt="Savora logo" class="sidebar-logo">
+                    
+                </a>
+            <nav class="sidebar-nav" aria-label="Dashboard navigation">
+                <a href="/pages/dashboard/overview.html" class="sidebar-link">Dashboard</a>
+                <a href="/pages/dashboard/clients.html" class="sidebar-link">Clients</a>
+                <a href="/pages/dashboard/dishes.html" class="sidebar-link">Dishes</a>
+                <a href="/pages/dashboard/menus.html" class="sidebar-link">Menus</a>
+                <a href="/pages/dashboard/quotations.html" class="sidebar-link active">Quotations</a>
+                <a href="/pages/dashboard/appointments.html" class="sidebar-link">Appointments</a>
+            </nav>
+            <div class="sidebar-card">
+                Deliver a refined experience with polished proposals and clear pricing.
+            </div>
+        </aside>
+
+        <div class="dashboard-main">
+            <header class="dashboard-topbar">
+                <h1 class="topbar-title">Quotations</h1>
+                <div class="topbar-actions">
+                    <div class="topbar-search">
+                        <svg viewBox="0 0 20 20" fill="currentColor">
+                            <path d="M9 3.5a5.5 5.5 0 1 0 0 11 5.5 5.5 0 0 0 0-11ZM2 9a7 7 0 1 1 12.452 4.391l3.328 3.329a.75.75 0 1 1-1.06 1.06l-3.329-3.328A7 7 0 0 1 2 9Z" clip-rule="evenodd" fill-rule="evenodd"/>
+                        </svg>
+                        <input type="search" placeholder="Search..." aria-label="Search">
+                    </div>
+                    <div class="topbar-user">
+                        <div class="user-menu">
+                            <button class="user-menu-btn" id="user-menu-button" aria-haspopup="true" aria-expanded="false">
+                                <img src="https://ui-avatars.com/api/?name=Chef+User&background=06d6a0&color=fff" alt="User avatar" class="user-avatar">
+                                <span class="hide-mobile">Chef</span>
+                            </button>
+                            <div class="user-menu-dropdown" id="user-menu-dropdown">
+                                <a href="#" id="logout-btn">Sign Out</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <main class="dashboard-content">
+                <div class="main-container">
+            <div class="page-header">
+                <h1 class="page-title">Quotations</h1>
+                <p class="page-description">Manage customer quotations and proposals.</p>
+            </div>
+
+            <section class="card">
+                <div class="card-header" style="display:flex;justify-content:space-between;align-items:center;">
+                    <h3 class="card-title">Your Quotations</h3>
+                    <button id="create-quotation-btn" class="btn btn-primary">+ New Quotation</button>
+                </div>
+                <div class="card-body">
+                    <!-- Filter Tabs -->
+                    <div style="display:flex;gap:var(--spacing-2);margin-bottom:var(--spacing-4);border-bottom:1px solid var(--color-gray-200);padding-bottom:var(--spacing-2);">
+                        <button class="filter-tab active" data-status="all">All</button>
+                        <button class="filter-tab" data-status="draft">Draft</button>
+                        <button class="filter-tab" data-status="sent">Sent</button>
+                        <button class="filter-tab" data-status="accepted">Accepted</button>
+                        <button class="filter-tab" data-status="rejected">Rejected</button>
+                    </div>
+
+                    <div id="quotations-container"></div>
+                    <p id="loading-message" class="helper-text">Loading quotations...</p>
+                </div>
+            </section>
+
+            <div id="create-quotation-modal" class="modal" style="display: none;">
+                <div class="modal-content modal-content-lg">
+                    <div class="modal-header">
+                        <h2 class="modal-title">Create New Quotation</h2>
+                        <button type="button" class="modal-close" id="create-quotation-close" aria-label="Close">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="create-quotation-form">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="quotation-client">Client</label>
+                                    <select id="quotation-client" name="client_id">
+                                        <option value="">Select client</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="quotation-menu">Menu</label>
+                                    <select id="quotation-menu" name="menu_id">
+                                        <option value="">Select menu</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="quotation-event-date">Event Date</label>
+                                    <input type="date" id="quotation-event-date" name="event_date">
+                                </div>
+                                <div class="form-group">
+                                    <label for="quotation-people">Number of People</label>
+                                    <input type="number" id="quotation-people" name="number_of_people" min="1" step="1">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="quotation-notes">Notes</label>
+                                <textarea id="quotation-notes" name="notes" rows="3"></textarea>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="quotation-terms">Terms & Conditions</label>
+                                <textarea id="quotation-terms" name="terms_and_conditions" rows="3"></textarea>
+                            </div>
+
+                            <div class="card" style="padding: var(--spacing-4); margin-bottom: var(--spacing-4);">
+                                <div class="card-header" style="border-bottom: none; padding-bottom: 0; margin-bottom: var(--spacing-3);">
+                                    <h4 class="card-title" style="font-size: 1rem;">First Item</h4>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="quotation-dish">Dish (optional)</label>
+                                        <select id="quotation-dish" name="dish_id">
+                                            <option value="">Select dish</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="quotation-item-name">Item Name</label>
+                                        <input type="text" id="quotation-item-name" name="item_name" placeholder="e.g., Paella">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="quotation-item-description">Description</label>
+                                    <textarea id="quotation-item-description" name="description" rows="2"></textarea>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="quotation-quantity">Quantity</label>
+                                        <input type="number" id="quotation-quantity" name="quantity" min="1" step="1" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="quotation-unit-price">Unit Price</label>
+                                        <input type="number" id="quotation-unit-price" name="unit_price" min="0" step="0.01" required>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <p id="quotation-error" class="error-message" style="display:none;"></p>
+                            <div class="modal-footer modal-footer-plain">
+                                <button type="submit" class="btn btn-primary">Create Quotation</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script type="module" src="/scripts/core/app.js"></script>
+    <script type="module" src="/scripts/views/quotations.js"></script>
+</body>
+</html>

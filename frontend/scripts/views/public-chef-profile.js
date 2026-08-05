@@ -40,14 +40,24 @@ document.addEventListener('DOMContentLoaded', async () => {
     try {
         // Fetch chef profile
         const response = await api.get(`/public/chefs/${chefId}`);
-        const chef = unwrap(response.data);
+        const payload = unwrap(response.data);
+        const chef = payload?.chef ?? payload;
+        const dishes = payload?.dishes ?? [];
+        const stats = payload?.stats ?? {
+            total_menus: 0,
+            total_dishes: dishes.length
+        };
 
         // Hide loading, show content
         loadingState.style.display = 'none';
+        chefContent.classList.remove('is-hidden');
         chefContent.style.display = 'block';
 
         // Render chef profile
-        renderChefProfile(chef);
+        renderChefProfile(chef, stats);
+
+        // Load paginated menus
+        await loadChefMenus(stats);
 
         // Initialize contact form
         initContactForm(chef);
@@ -60,13 +70,15 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     function showError(message) {
         loadingState.style.display = 'none';
+        errorState.classList.remove('is-hidden');
         errorState.style.display = 'block';
         errorText.textContent = message;
     }
 
-    function renderChefProfile(chef) {
+    function renderChefProfile(chef, stats) {
         // Chef name
-        document.getElementById('chef-name').textContent = chef.name || 'Chef';
+        const displayName = chef?.name || chef?.user?.username || 'Chef';
+        document.getElementById('chef-name').textContent = displayName;
 
         // Chef specialty
         document.getElementById('chef-specialty').textContent = chef.specialty || 'Especialidad Culinaria';
@@ -81,12 +93,134 @@ document.addEventListener('DOMContentLoaded', async () => {
         // Biography
         if (chef.bio) {
             const bioSection = document.getElementById('bio-section');
+            bioSection.classList.remove('is-hidden');
             bioSection.style.display = 'block';
             document.getElementById('chef-bio').textContent = chef.bio;
         }
 
+        const statsContainer = document.getElementById('chef-stats');
+        if (statsContainer) {
+            const totalMenus = stats?.total_menus ?? 0;
+            const totalDishes = stats?.total_dishes ?? 0;
+            statsContainer.innerHTML = `
+                <span class="chef-profile-stat">${totalMenus} menú${totalMenus === 1 ? '' : 's'} publicados</span>
+                <span class="chef-profile-stat">${totalDishes} plato${totalDishes === 1 ? '' : 's'} en el catálogo</span>
+            `;
+        }
+
+        // Quotation CTA in hero
+        const heroActions = document.getElementById('chef-hero-actions');
+        if (heroActions) {
+            heroActions.innerHTML = `
+                <a class="btn btn-primary" href="/pages/public/request-quotation.html?chef_id=${chefId}">Solicitar cotización</a>
+                <a class="btn btn-outline" href="#contact-section">Enviar mensaje</a>
+            `;
+        }
+
         // Update page title
-        document.title = `${chef.name} - LyfterCook`;
+        document.title = `${displayName} - Savora`;
+
+        if (window.SavoraReveal?.refresh) {
+            window.SavoraReveal.refresh();
+        }
+    }
+
+    function createMenuCard(menu, index) {
+        const menuImages = [
+            'https://images.unsplash.com/photo-1473093295043-cdd812d0e601?auto=format&fit=crop&w=800&q=80',
+            'https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=800&q=80',
+            'https://images.unsplash.com/photo-1525351484163-7529414344d8?auto=format&fit=crop&w=800&q=80'
+        ];
+        const description = menu?.description || 'Menú personalizado para experiencias memorables.';
+        const dishCount = menu?.dish_count ?? menu?.dishes?.length ?? 0;
+        const totalPrice = menu?.total_price ? `$${menu.total_price}` : 'Precio a convenir';
+        const firstDishPhoto = menu?.dishes?.[0]?.dish?.photo_url;
+        const imageUrl = firstDishPhoto || menuImages[index % menuImages.length];
+        const highlightDishes = (menu?.dishes || [])
+            .map((item) => item?.dish?.name)
+            .filter(Boolean)
+            .slice(0, 3)
+            .join(' · ');
+
+        return `
+            <article class="public-menu-card" data-reveal="up">
+                <img src="${imageUrl}" alt="Vista previa del menú">
+                <div class="public-menu-card-body">
+                    <h3 class="public-menu-card-title">${menu.name}</h3>
+                    <div class="public-menu-card-price">${totalPrice} total · ${dishCount} plato${dishCount === 1 ? '' : 's'}</div>
+                    <p class="public-menu-card-text">${description}</p>
+                    ${highlightDishes ? `<p class="public-menu-card-text">${highlightDishes}</p>` : ''}
+                    <a class="btn btn-outline" href="#contact-section">Contactar al chef</a>
+                    <a class="btn btn-primary" href="/pages/public/request-quotation.html?chef_id=${chefId}">Solicitar cotización</a>
+                </div>
+            </article>
+        `;
+    }
+
+    async function loadChefMenus(stats) {
+        const menusGrid = document.getElementById('chef-menus-grid');
+        const menusEmpty = document.getElementById('chef-menus-empty');
+        const loadMoreButton = document.getElementById('chef-menus-load-more');
+
+        if (!menusGrid || !menusEmpty || !loadMoreButton) return;
+
+        let page = 1;
+        let totalPages = 1;
+        let isLoading = false;
+
+        const fetchPage = async () => {
+            if (isLoading) return;
+            isLoading = true;
+
+            try {
+                const response = await api.get(`/public/chefs/${chefId}/menus?page=${page}&per_page=6`);
+                const data = unwrap(response.data);
+                const menus = data?.menus ?? [];
+                const pagination = data?.pagination ?? {};
+
+                totalPages = pagination.total_pages ?? totalPages;
+
+                if (!menus.length && page === 1) {
+                    menusEmpty.textContent = 'Este chef aún no ha publicado menús. Escríbele para crear uno a tu medida.';
+                    loadMoreButton.classList.add('is-hidden');
+                    return;
+                }
+
+                menusEmpty.style.display = 'none';
+
+                const offsetIndex = (page - 1) * 6;
+                menusGrid.insertAdjacentHTML(
+                    'beforeend',
+                    menus.map((menu, index) => createMenuCard(menu, offsetIndex + index)).join('')
+                );
+
+                if (page >= totalPages) {
+                    loadMoreButton.classList.add('is-hidden');
+                } else {
+                    loadMoreButton.classList.remove('is-hidden');
+                }
+
+                if (window.SavoraReveal?.refresh) {
+                    window.SavoraReveal.refresh();
+                }
+            } catch (error) {
+                console.error('Error fetching chef menus:', error);
+                if (page === 1) {
+                    menusEmpty.textContent = getErrorMessage(error) || 'No se pudieron cargar los menús.';
+                }
+            } finally {
+                isLoading = false;
+            }
+        };
+
+        loadMoreButton.addEventListener('click', () => {
+            if (page < totalPages) {
+                page += 1;
+                fetchPage();
+            }
+        });
+
+        await fetchPage();
     }
 
     function initContactForm(chef) {
@@ -153,8 +287,6 @@ document.addEventListener('DOMContentLoaded', async () => {
             }
 
             try {
-                // BACKEND TODO: Implement POST /public/contact
-                // For now, this will fail with 404 until backend is ready
                 await api.post('/public/contact', formData);
 
                 // Success
@@ -175,11 +307,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
                 let message = 'Error al enviar mensaje. Por favor intenta de nuevo.';
 
-                if (error.response?.status === 404) {
-                    message = '⚠️ Backend no implementado aún: POST /public/contact pendiente';
-                } else {
-                    message = getErrorMessage(error) || message;
-                }
+                message = getErrorMessage(error) || message;
 
                 showFormError(message);
                 enableForm();

@@ -31,7 +31,7 @@
     {
       "label": "🗄️ Check Slow Queries (PostgreSQL)",
       "type": "shell",
-      "command": "psql -U postgres -d lyftercook -c \"SELECT query, mean_exec_time, calls FROM pg_stat_statements ORDER BY mean_exec_time DESC LIMIT 10;\"",
+      "command": "psql -U postgres -d Savora -c \"SELECT query, mean_exec_time, calls FROM pg_stat_statements ORDER BY mean_exec_time DESC LIMIT 10;\"",
       "group": "test"
     },
     {
@@ -43,3 +43,4 @@
     }
   ]
 }
+

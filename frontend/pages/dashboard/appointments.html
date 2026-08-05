@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Savora | Appointments</title>
+    <link rel="stylesheet" href="/styles/main.css">
+    <link rel="stylesheet" href="/styles/components.css">
+    <link rel="stylesheet" href="/styles/layout.css">
+</head>
+<body class="dashboard-layout theme-monks">
+    <div class="dashboard-shell">
+        <aside class="dashboard-sidebar">
+            <a class="sidebar-brand" href="/" aria-label="Savora">
+                <img src="/utils/logo.svg" alt="Savora logo" class="sidebar-logo">
+                
+            </a>
+            <nav class="sidebar-nav" aria-label="Dashboard navigation">
+                <a href="/pages/dashboard/overview.html" class="sidebar-link">Dashboard</a>
+                <a href="/pages/dashboard/clients.html" class="sidebar-link">Clients</a>
+                <a href="/pages/dashboard/dishes.html" class="sidebar-link">Dishes</a>
+                <a href="/pages/dashboard/menus.html" class="sidebar-link">Menus</a>
+                <a href="/pages/dashboard/quotations.html" class="sidebar-link">Quotations</a>
+                <a href="/pages/dashboard/appointments.html" class="sidebar-link active">Appointments</a>
+            </nav>
+            <div class="sidebar-card">
+                Keep every client touchpoint organized with clear appointment status updates.
+            </div>
+        </aside>
+
+        <div class="dashboard-main">
+            <header class="dashboard-topbar">
+                <h1 class="topbar-title">Appointments</h1>
+                <div class="topbar-actions">
+                    <div class="topbar-search">
+                        <svg viewBox="0 0 20 20" fill="currentColor">
+                            <path d="M9 3.5a5.5 5.5 0 1 0 0 11 5.5 5.5 0 0 0 0-11ZM2 9a7 7 0 1 1 12.452 4.391l3.328 3.329a.75.75 0 1 1-1.06 1.06l-3.329-3.328A7 7 0 0 1 2 9Z" clip-rule="evenodd" fill-rule="evenodd"/>
+                        </svg>
+                        <input type="search" placeholder="Search..." aria-label="Search">
+                    </div>
+                    <div class="topbar-user">
+                        <div class="user-menu">
+                            <button class="user-menu-btn" id="user-menu-button" aria-haspopup="true" aria-expanded="false">
+                                <img src="https://ui-avatars.com/api/?name=Chef+User&background=06d6a0&color=fff" alt="User avatar" class="user-avatar">
+                                <span class="hide-mobile">Chef</span>
+                            </button>
+                            <div class="user-menu-dropdown" id="user-menu-dropdown">
+                                <a href="#" id="logout-btn">Sign Out</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <main class="dashboard-content">
+                <div class="main-container">
+                    <div class="page-header">
+                        <h1 class="page-title">Appointments</h1>
+                        <p class="page-description">Schedule consultations, tastings, and events with confidence.</p>
+                    </div>
+
+                    <section class="card">
+                        <div class="card-header" style="display:flex;justify-content:space-between;align-items:center;">
+                            <h3 class="card-title">Upcoming Calendar</h3>
+                            <button id="create-appointment-btn" class="btn btn-primary">+ New Appointment</button>
+                        </div>
+                        <div class="card-body">
+                            <form id="appointments-filter-form" class="form-row" style="margin-bottom: var(--spacing-4);">
+                                <div class="form-group">
+                                    <label for="filter-status">Status</label>
+                                    <select id="filter-status" name="status">
+                                        <option value="">All statuses</option>
+                                        <option value="scheduled">Scheduled</option>
+                                        <option value="confirmed">Confirmed</option>
+                                        <option value="completed">Completed</option>
+                                        <option value="cancelled">Cancelled</option>
+                                        <option value="no_show">No show</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="filter-start">Start date</label>
+                                    <input type="date" id="filter-start" name="start_date">
+                                </div>
+                                <div class="form-group">
+                                    <label for="filter-end">End date</label>
+                                    <input type="date" id="filter-end" name="end_date">
+                                </div>
+                                <div class="form-group">
+                                    <label for="filter-upcoming">Upcoming</label>
+                                    <div style="display:flex; gap: var(--spacing-2); align-items:center;">
+                                        <input type="checkbox" id="filter-upcoming" name="upcoming">
+                                        <input type="number" id="filter-days" name="days" min="1" value="7" style="max-width: 120px;" placeholder="Days">
+                                    </div>
+                                    <small class="helper-text">Use upcoming to look ahead.</small>
+                                </div>
+                                <div class="form-group" style="display:flex; align-items:flex-end;">
+                                    <button type="submit" class="btn btn-outline">Apply filters</button>
+                                </div>
+                            </form>
+
+                            <div class="table-container">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>Title</th>
+                                            <th>Client</th>
+                                            <th>When</th>
+                                            <th>Duration</th>
+                                            <th>Status</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="appointments-table-body"></tbody>
+                                </table>
+                            </div>
+                            <p id="appointments-loading" class="helper-text">Loading appointments...</p>
+                        </div>
+                    </section>
+
+                    <div id="create-appointment-modal" class="modal" style="display: none;">
+                        <div class="modal-content modal-content-lg">
+                            <div class="modal-header">
+                                <h2 class="modal-title">Create Appointment</h2>
+                                <button type="button" class="modal-close" id="create-appointment-close" aria-label="Close">&times;</button>
+                            </div>
+                            <div class="modal-body">
+                                <form id="create-appointment-form">
+                                    <div class="form-row">
+                                        <div class="form-group">
+                                            <label for="appointment-client">Client</label>
+                                            <select id="appointment-client" name="client_id">
+                                                <option value="">No client</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="appointment-title">Title *</label>
+                                            <input type="text" id="appointment-title" name="title" required maxlength="120">
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group">
+                                            <label for="appointment-datetime">Scheduled At *</label>
+                                            <input type="datetime-local" id="appointment-datetime" name="scheduled_at" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="appointment-duration">Duration (minutes)</label>
+                                            <input type="number" id="appointment-duration" name="duration_minutes" min="15" step="15" value="60">
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group">
+                                            <label for="appointment-location">Location</label>
+                                            <input type="text" id="appointment-location" name="location" placeholder="Chef studio">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="appointment-meeting">Meeting URL</label>
+                                            <input type="url" id="appointment-meeting" name="meeting_url" placeholder="https://">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="appointment-description">Description</label>
+                                        <textarea id="appointment-description" name="description" rows="3"></textarea>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="appointment-notes">Notes</label>
+                                        <textarea id="appointment-notes" name="notes" rows="2"></textarea>
+                                    </div>
+                                    <p id="appointment-error" class="error-message" style="display:none;"></p>
+                                    <div class="modal-footer modal-footer-plain">
+                                        <button type="submit" class="btn btn-primary">Create Appointment</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="edit-appointment-modal" class="modal" style="display: none;">
+                        <div class="modal-content modal-content-lg">
+                            <div class="modal-header">
+                                <h2 class="modal-title">Edit Appointment</h2>
+                                <button type="button" class="modal-close" id="edit-appointment-close" aria-label="Close">&times;</button>
+                            </div>
+                            <div class="modal-body">
+                                <form id="edit-appointment-form">
+                                    <input type="hidden" id="edit-appointment-id" name="id">
+                                    <div class="form-row">
+                                        <div class="form-group">
+                                            <label for="edit-appointment-client">Client</label>
+                                            <select id="edit-appointment-client" name="client_id">
+                                                <option value="">No client</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="edit-appointment-title">Title *</label>
+                                            <input type="text" id="edit-appointment-title" name="title" required maxlength="120">
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group">
+                                            <label for="edit-appointment-datetime">Scheduled At *</label>
+                                            <input type="datetime-local" id="edit-appointment-datetime" name="scheduled_at" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="edit-appointment-duration">Duration (minutes)</label>
+                                            <input type="number" id="edit-appointment-duration" name="duration_minutes" min="15" step="15">
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group">
+                                            <label for="edit-appointment-location">Location</label>
+                                            <input type="text" id="edit-appointment-location" name="location">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="edit-appointment-meeting">Meeting URL</label>
+                                            <input type="url" id="edit-appointment-meeting" name="meeting_url">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="edit-appointment-description">Description</label>
+                                        <textarea id="edit-appointment-description" name="description" rows="3"></textarea>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="edit-appointment-notes">Notes</label>
+                                        <textarea id="edit-appointment-notes" name="notes" rows="2"></textarea>
+                                    </div>
+                                    <p id="edit-appointment-error" class="error-message" style="display:none;"></p>
+                                    <div class="modal-footer modal-footer-plain">
+                                        <button type="submit" class="btn btn-primary">Save Changes</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script type="module" src="/scripts/core/app.js"></script>
+    <script type="module" src="/scripts/views/appointments.js"></script>
+</body>
+</html>

@@ -60,7 +60,10 @@ class DishService:
         logger.info(f"Created dish {dish.id} for chef {chef.id}")
         
         # Invalidate related caches
-        self.cache_helper.invalidate(f"*:user:{user_id}:*")  # Invalidate all user's dishes
+        self.cache_helper.invalidate(
+            f"list:chef:{chef.id}:active:True",
+            f"list:chef:{chef.id}:active:False"
+        )
         invalidate_cache('route:public:dishes:*')  # Clear public route cache
         
         return dish

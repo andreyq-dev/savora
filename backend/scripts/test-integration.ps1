@@ -10,7 +10,7 @@ $env:APP_ENV = "docker"
 $env:FLASK_ENV = "testing"
 
 Write-Host "Running Integration Tests (DOCKER environment)" -ForegroundColor Magenta
-Write-Host "   Database: localhost:5433/lyftercook_docker" -ForegroundColor Cyan
+Write-Host "   Database: localhost:5433/Savora_docker" -ForegroundColor Cyan
 Write-Host "   Redis: localhost:6380" -ForegroundColor Cyan
 Write-Host ""
 Write-Host "⚠️  Make sure:" -ForegroundColor Yellow
@@ -19,3 +19,4 @@ Write-Host "   2. Backend server is running in another terminal" -ForegroundColo
 Write-Host ""
 
 python -m pytest tests/integration -v
+

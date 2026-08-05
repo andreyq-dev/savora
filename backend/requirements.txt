@@ -44,5 +44,8 @@ pytest-mock==3.14.0
 faker==33.0.0
 coverage==7.6.8
 
+# Production server
+gunicorn==23.0.0
+
 # Development
 flask-limiter==3.8.0

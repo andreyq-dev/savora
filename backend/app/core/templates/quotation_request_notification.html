@@ -1,0 +1,35 @@
+<!doctype html>
+<html>
+  <body style="font-family: Arial, sans-serif;">
+    {% if chef_name %}
+      <h2>Hola {{ chef_name }},</h2>
+    {% else %}
+      <h2>Hola,</h2>
+    {% endif %}
+
+    <p>Has recibido una nueva solicitud de cotización:</p>
+
+    <ul>
+      <li><strong>Nombre:</strong> {{ visitor_name }}</li>
+      <li><strong>Email:</strong> {{ visitor_email }}</li>
+      {% if visitor_phone %}
+        <li><strong>Teléfono:</strong> {{ visitor_phone }}</li>
+      {% endif %}
+      {% if event_date %}
+        <li><strong>Fecha del evento:</strong> {{ event_date }}</li>
+      {% endif %}
+      {% if guests %}
+        <li><strong>Número de invitados:</strong> {{ guests }}</li>
+      {% endif %}
+      {% if budget %}
+        <li><strong>Presupuesto estimado:</strong> ${{ budget }}</li>
+      {% endif %}
+    </ul>
+
+    <p><strong>Descripción del evento:</strong></p>
+    <p style="white-space: pre-wrap;">{{ event_description }}</p>
+
+    <hr />
+    <p style="color:#666;">Savora &mdash; Responde directamente a {{ visitor_email }} para coordinar los detalles.</p>
+  </body>
+</html>

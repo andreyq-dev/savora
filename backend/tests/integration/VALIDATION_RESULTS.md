@@ -12,7 +12,7 @@ This document tracks the results of **real HTTP endpoint validation** against a 
 
 **Infrastructure:**
 - Docker Compose (Postgres 16 on port 5433, Redis 7 on port 6380)
-- Isolated test database: `lyftercook_docker`
+- Isolated test database: `Savora_docker`
 - Backend: Flask dev server (http://localhost:5000)
 
 **Results:**
@@ -61,7 +61,7 @@ This document tracks the results of **real HTTP endpoint validation** against a 
 
 **Infrastructure:**
 - Docker Compose (Postgres 16 on port 5433, Redis 7 on port 6380)
-- Isolated test database: `lyftercook_docker`
+- Isolated test database: `Savora_docker`
 - Backend: Flask dev server (http://localhost:5000)
 
 **Results:**
@@ -126,7 +126,7 @@ This document tracks the results of **real HTTP endpoint validation** against a 
 
 **Infrastructure:**
 - Docker Compose (Postgres 16 on port 5433, Redis 7 on port 6380)
-- Isolated test database: `lyftercook_docker`
+- Isolated test database: `Savora_docker`
 - Backend: Flask dev server (http://localhost:5000)
 
 **Results:**
@@ -419,7 +419,7 @@ All modules in scope have been validated.
 postgres:
   image: postgres:16-alpine
   port: 5433:5432
-  database: lyftercook_docker
+  database: Savora_docker
   credentials: postgres / testpassword
 
 redis:
@@ -502,3 +502,4 @@ For each module to be marked as "✅ VALIDATED":
 1. Optional: add audit log endpoint tests (`/admin/audit-logs*`)
 2. Optional: expand admin reports coverage (CSV response behavior)
 3. Keep running full suite to catch regressions (latest run: 127 passed)
+

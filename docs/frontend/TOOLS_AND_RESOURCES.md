@@ -16,7 +16,7 @@
   3. Agrega texto para etiquetar
   4. Exporta como PNG o comparte link
 
-**Ejemplo de uso para LyfterCook**:
+**Ejemplo de uso para Savora**:
 ```
 Dibuja:
 - Rectángulo grande = página completa
@@ -34,7 +34,7 @@ Dibuja:
 - **Cómo usar**:
   1. Crea cuenta gratuita
   2. Usa plantillas de UI kits (busca "Dashboard Template")
-  3. Duplica y modifica para LyfterCook
+   3. Duplica y modifica para Savora
   4. Comparte link con "View Only"
 
 **Templates útiles**:

@@ -62,12 +62,13 @@ To see the exact current count in your environment:
 .\venv\Scripts\python.exe -m pytest tests/unit --collect-only -q
 ```
 
-**Database:** Local PostgreSQL `lyftercook_test`
+**Database:** Local PostgreSQL `savora_test`
 
 ### Integration Tests (`tests/integration/`) - 139 tests
 Real HTTP tests against live server + Docker:
 - CRUD: Clients (12), Dishes (16), Menus (18), Quotations (18), Appointments (17)
-- APIs: Chefs (8), Public (10), Scrapers (11), Admin (20)
+- APIs: Chefs (8), Public (10), Admin (20)
+	- Scrapers: Deferred (Post‑MVP)
 - Workflows: Multi-step flows (5)
 
 **Infrastructure:** Docker PostgreSQL (5433), Redis (6380)  

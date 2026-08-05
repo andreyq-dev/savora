@@ -1,4 +1,4 @@
-# Start LyfterCook backend with DOCKER environment configuration
+# Start Savora backend with DOCKER environment configuration
 param(
 	[switch]$ResetDb
 )
@@ -13,8 +13,8 @@ Set-Location $BackendRoot
 $env:APP_ENV = "docker"
 $env:FLASK_ENV = "development"
 
-Write-Host "Starting LyfterCook Backend (DOCKER environment)" -ForegroundColor Blue
-Write-Host "   PostgreSQL: localhost:5433/lyftercook_docker" -ForegroundColor Cyan
+Write-Host "Starting Savora Backend (DOCKER environment)" -ForegroundColor Blue
+Write-Host "   PostgreSQL: localhost:5433/Savora_docker" -ForegroundColor Cyan
 Write-Host "   Redis: localhost:6380" -ForegroundColor Cyan
 Write-Host ""
 Write-Host "Make sure Docker containers are running:" -ForegroundColor Yellow
@@ -29,3 +29,4 @@ if ($ResetDb) {
 }
 
 python run.py
+

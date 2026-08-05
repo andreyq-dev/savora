@@ -1,10 +1,10 @@
-# 🍳 LyfterCook API Documentation
+# 🍳 Savora API Documentation
 
 ## 📋 Base URL
 
 ```
 Development: http://localhost:5000
-Production: https://api.lyftercook.com (TBD)
+Production: https://api.Savora.com (TBD)
 ```
 
 ---
@@ -18,8 +18,8 @@ Production: https://api.lyftercook.com (TBD)
 | 👑 | **Admin** | Requires JWT token + `admin` role. Full system access. |
 | ⚡ | **Cached** | Endpoint uses caching for improved performance. |
 
-**Total Endpoints:** 60 (9 public + 40 chef + 11 admin)
-**Cached Endpoints:** 8 (marked with ⚡)
+**Total Endpoints:** 61 (10 public + 40 chef + 11 admin)
+**Cached Endpoints:** 9 (marked with ⚡)
 
 ---
 
@@ -159,12 +159,12 @@ Authorization: Bearer <your_jwt_token>
 | Menu | 6 | 9 | 18 | ✅ **VALIDATED** | 2025-12-31 |
 | Quotation | 6 | 9 | 20 | ✅ **VALIDATED** | 2026-01-03 |
 | Appointment | 6 | 12 | 19 | ✅ **VALIDATED** | 2026-01-03 |
-| Scraper | 3 | 12 | 11 | ✅ **VALIDATED** | 2025-12-31 |
-| Public | 9 | 15 | 10 | ✅ **VALIDATED** | 2025-12-31 |
+| Scraper | 3 | 12 | 11 | ⏳ **DEFERRED (Post‑MVP)** | 2026-02-08 |
+| Public | 10 | 15 | 10 | ✅ **VALIDATED** | 2025-12-31 |
 | Admin | 11 | 16 | 20 | ✅ **VALIDATED** | 2025-12-31 |
 | Cross-cutting coverage/hotspots | - | 77 | - | ✅ **VALIDATED** | 2026-01-03 |
 
-**Total:** 60 endpoints | **497 tests** (358 unit + 139 integration) | **85% unit-test coverage** | **10/10 modules validated**
+**Total:** 58 active endpoints | **497 tests** (358 unit + 139 integration) | **85% unit-test coverage** | **9/10 modules validated** (Scraper deferred)
 
 > Note: the per-module test counts above can drift as coverage and cross-cutting tests evolve. Use `pytest --collect-only` for the current exact counts.
 
@@ -215,19 +215,12 @@ Authorization: Bearer <your_jwt_token>
 | `PUT` | `/appointments/:id` | 🔒 Chef | Update one of my appointments |
 | `PATCH` | `/appointments/:id/status` | 🔒 Chef | Change my appointment status |
 | `DELETE` | `/appointments/:id` | 🔒 Chef | Delete one of my appointments |
-| **SCRAPER MODULE** ||||
-| `POST` | `/scrapers/sources` | 🔒 Chef | Create price source |
-| `GET` | `/scrapers/sources` | 🔒 Chef | List price sources |
-| `GET` | `/scrapers/sources/:id` | 🔒 Chef | View a price source |
-| `PUT` | `/scrapers/sources/:id` | 🔒 Chef | Update a price source |
-| `DELETE` | `/scrapers/sources/:id` | 🔒 Chef | Delete a price source |
-| `POST` | `/scrapers/scrape` | 🔒 Chef | Scrape ingredient prices |
-| `GET` | `/scrapers/prices` | 🔒 Chef | View scraped prices |
-| `GET` | `/scrapers/prices/compare` | 🔒 Chef | Compare prices between sources |
-| `DELETE` | `/scrapers/prices/cleanup` | 🔒 Chef | Clean up old prices |
+| **SCRAPER MODULE (DEFERRED / Post‑MVP)** ||||
+| _Deferred_ | _Scraper endpoints_ | _N/A_ | Not available in current release |
 | **PUBLIC MODULE** ||||
 | `GET` | `/public/chefs` | 🌐 Public ⚡ | List all active chefs with filters (cached, 5min) |
 | `GET` | `/public/chefs/:id` | 🌐 Public ⚡ | View complete chef profile (cached, 10min) |
+| `GET` | `/public/chefs/:id/menus` | 🌐 Public ⚡ | List published menus for a chef (cached, 5min) |
 | `GET` | `/public/search` | 🌐 Public | General chef search |
 | `GET` | `/public/filters` | 🌐 Public | Get available filters |
 | `GET` | `/public/menus/:id` | 🌐 Public | View public menu |
@@ -1834,307 +1827,22 @@ Authorization: Bearer {token}
 ```
 
 ---
-### 🛒 **Scraper Module** (✅ IMPLEMENTED, ✅ VALIDATED, ⏳ PENDING MANUAL VALIDATION)
+### 🛒 **Scraper Module** (⏳ DEFERRED / Post‑MVP)
 
-> **Authentication:** All endpoints require Chef authentication (🔒)
+> **Status:** Deferred for a future release. Scraper endpoints are **not available** in the current release.
 >
-> **Note:** Configure price sources (supermarkets) and scrape ingredient prices.
+> **Note:** This module will return in a future version with endpoints to manage price sources and scrape ingredient prices.
 
-#### **1. List Price Sources** 🔒 Chef
-```http
-GET /scrapers/sources?active_only=true
-Authorization: Bearer {token}
-```
-
-**Query Parameters:**
-- `active_only` (boolean, optional): When `true`, returns only active sources (default: `false`)
-
-**Success Response (200):**
-```json
-{
-  "data": [
-    {
-      "id": 1,
-      "name": "Walmart",
-      "base_url": "https://walmart.com",
-      "search_url_template": "https://walmart.com/search?q={ingredient}",
-      "product_name_selector": ".product-title",
-      "price_selector": ".price",
-      "image_selector": ".product-img",
-      "is_active": true,
-      "notes": "Main grocery store",
-      "created_at": "2025-12-13T10:00:00",
-      "updated_at": "2025-12-13T10:00:00"
-    }
-  ]
-}
-```
-
----
-
-#### **2. Get Price Source** 🔒 Chef
-```http
-GET /scrapers/sources/{id}
-Authorization: Bearer {token}
-```
-
-**Success Response (200):**
-```json
-{
-  "data": {
-    "id": 1,
-    "name": "Walmart",
-    "base_url": "https://walmart.com",
-    "search_url_template": "https://walmart.com/search?q={ingredient}",
-    "product_name_selector": ".product-title",
-    "price_selector": ".price",
-    "image_selector": ".product-img",
-    "is_active": true,
-    "notes": null,
-    "created_at": "2025-12-13T10:00:00",
-    "updated_at": "2025-12-13T10:00:00"
-  }
-}
-```
-
-**Error Response (404):**
-```json
-{
-  "status": "error",
-  "error": "Price source with ID 999 not found",
-  "message": "Price source with ID 999 not found",
-  "status_code": 404
-}
-```
-
----
-
-#### **3. Create Price Source** 🔒 Chef
-```http
-POST /scrapers/sources
-Authorization: Bearer {token}
-
-Body:
-{
-  "name": "Walmart",
-  "base_url": "https://walmart.com",
-  "search_url_template": "https://walmart.com/search?q={ingredient}",
-  "product_name_selector": ".product-title",
-  "price_selector": ".price",
-  "image_selector": ".product-img",
-  "is_active": true,
-  "notes": "Main grocery store"
-}
-```
-
-**Success Response (201):**
-```json
-{
-  "data": {
-    "id": 1,
-    "name": "Walmart",
-    "base_url": "https://walmart.com",
-    "search_url_template": "https://walmart.com/search?q={ingredient}",
-    "product_name_selector": ".product-title",
-    "price_selector": ".price",
-    "image_selector": ".product-img",
-    "is_active": true,
-    "notes": "Main grocery store",
-    "created_at": "2025-12-13T10:00:00",
-    "updated_at": "2025-12-13T10:00:00"
-  },
-  "message": "Price source created successfully"
-}
-```
-
----
-
-#### **4. Update Price Source** 🔒 Chef
-```http
-PUT /scrapers/sources/{id}
-Authorization: Bearer {token}
-
-Body:
-{
-  "name": "Updated Store Name",
-  "is_active": false
-}
-```
-
-**Success Response (200):**
-```json
-{
-  "data": {
-    "id": 1,
-    "name": "Updated Store Name",
-    "base_url": "https://walmart.com",
-    "search_url_template": "https://walmart.com/search?q={ingredient}",
-    "product_name_selector": ".product-title",
-    "price_selector": ".price",
-    "image_selector": ".product-img",
-    "is_active": false,
-    "notes": "Main grocery store",
-    "created_at": "2025-12-13T10:00:00",
-    "updated_at": "2025-12-13T10:30:00"
-  },
-  "message": "Price source updated successfully"
-}
-```
-
----
-
-#### **5. Delete Price Source** 🔒 Chef
-```http
-DELETE /scrapers/sources/{id}
-Authorization: Bearer {token}
-```
-
-**Success Response (200):**
-```json
-{
-  "data": {},
-  "message": "Price source deleted successfully"
-}
-```
-
----
-
-#### **6. Scrape Ingredient Prices** 🔒 Chef
-```http
-POST /scrapers/scrape
-Authorization: Bearer {token}
-
-Body:
-{
-  "ingredient_name": "rice",
-  "price_source_ids": [1],
-  "force_refresh": false
-}
-```
-
-**Notes:**
-- If `price_source_ids` is omitted, the API uses all active sources.
-- By default, the service reuses a cached price if a source was scraped within the last 24 hours. Use `force_refresh=true` to bypass.
-
-**Success Response (200):**
-```json
-{
-  "data": [
-    {
-      "id": 1,
-      "price_source_id": 1,
-      "ingredient_name": "rice",
-      "product_name": "White Rice 5lb",
-      "price": "8.99",
-      "currency": "USD",
-      "product_url": "https://...",
-      "image_url": "https://...",
-      "unit": null,
-      "notes": null,
-      "scraped_at": "2025-11-27T10:00:00",
-      "created_at": "2025-11-27T10:00:00"
-    }
-  ],
-  "message": "Found 1 price(s) for 'rice'"
-}
-```
-
----
-
-#### **7. Get Scraped Prices** 🔒 Chef
-```http
-GET /scrapers/prices?ingredient_name=rice&price_source_id=1&max_age_hours=48
-Authorization: Bearer {token}
-```
-
-**Query Parameters:**
-- `ingredient_name` (string, optional): Filter by ingredient name
-- `price_source_id` (integer, optional): Filter by source ID
-- `max_age_hours` (integer, optional): Only return prices scraped within the last N hours (default: `24`)
-
-**Success Response (200):**
-```json
-{
-  "data": [
-    {
-      "id": 1,
-      "price_source_id": 1,
-      "ingredient_name": "rice",
-      "product_name": "White Rice 5lb",
-      "price": "8.99",
-      "currency": "USD",
-      "product_url": "https://...",
-      "image_url": "https://...",
-      "unit": null,
-      "notes": null,
-      "scraped_at": "2025-11-27T10:00:00",
-      "created_at": "2025-11-27T10:00:00"
-    }
-  ]
-}
-```
-
----
-
-#### **8. Compare Prices** 🔒 Chef
-```http
-GET /scrapers/prices/compare?ingredient_name=rice
-Authorization: Bearer {token}
-```
-
-**Success Response (200):**
-```json
-{
-  "data": {
-    "ingredient_name": "rice",
-    "found": true,
-    "total_sources": 2,
-    "min_price": 8.99,
-    "max_price": 10.49,
-    "avg_price": 9.74,
-    "prices": [
-      {
-        "source_id": 1,
-        "product_name": "White Rice 5lb",
-        "price": 8.99,
-        "url": "https://...",
-        "scraped_at": "2025-11-27T10:00:00"
-      }
-    ]
-  }
-}
-```
-
-**Error Response (400):**
-```json
-{
-  "status": "error",
-  "error": "ingredient_name query parameter is required",
-  "message": "ingredient_name query parameter is required",
-  "status_code": 400
-}
-```
-
----
-
-#### **9. Cleanup Old Prices** 🔒 Chef
-```http
-DELETE /scrapers/prices/cleanup?days_old=30
-Authorization: Bearer {token}
-```
-
-**Query Parameters:**
-- `days_old` (integer, optional): Delete prices older than this many days (default: `30`)
-
-**Success Response (200):**
-```json
-{
-  "data": {
-    "deleted_count": 150
-  },
-  "message": "Deleted 150 old price records"
-}
-```
+**Planned scope (not active):**
+- `POST /scrapers/sources`
+- `GET /scrapers/sources`
+- `GET /scrapers/sources/:id`
+- `PUT /scrapers/sources/:id`
+- `DELETE /scrapers/sources/:id`
+- `POST /scrapers/scrape`
+- `GET /scrapers/prices`
+- `GET /scrapers/prices/compare`
+- `DELETE /scrapers/prices/cleanup`
 
 ---
 
@@ -2145,6 +1853,7 @@ Authorization: Bearer {token}
 > **Cache:** All Public endpoints use route-level caching (⚡)
 > - `GET /public/chefs` (5 minutes)
 > - `GET /public/chefs/{id}` (10 minutes)
+> - `GET /public/chefs/{id}/menus` (5 minutes)
 > - `GET /public/search` (3 minutes)
 > - `GET /public/filters` (30 minutes)
 > - `GET /public/menus/{id}` (10 minutes)
@@ -2249,7 +1958,67 @@ GET /public/chefs/{id}
 
 ---
 
-#### **3. Search Chefs** 🌐 Public ⚡
+#### **3. Get Chef Menus (Paginated)** 🌐 Public ⚡
+```http
+GET /public/chefs/{id}/menus?page=1&per_page=6
+```
+
+**Query Parameters:**
+- `page` (integer, optional): Page number (default: `1`, must be `>= 1`)
+- `per_page` (integer, optional): Items per page (default: `6`, must be `1..50`)
+
+**Success Response (200):**
+```json
+{
+  "data": {
+    "menus": [
+      {
+        "id": 1,
+        "chef_id": 1,
+        "name": "Summer Menu",
+        "description": "Fresh seasonal dishes",
+        "status": "published",
+        "dish_count": 2,
+        "total_price": "27.98",
+        "dishes": [
+          {
+            "dish_id": 5,
+            "order_position": 0,
+            "dish": {
+              "id": 5,
+              "name": "Pasta Carbonara",
+              "photo_url": "https://example.com/pasta.jpg",
+              "price": "18.99",
+              "category": "Main Course",
+              "is_active": true
+            }
+          }
+        ]
+      }
+    ],
+    "pagination": {
+      "total": 3,
+      "page": 1,
+      "per_page": 6,
+      "total_pages": 1
+    }
+  }
+}
+```
+
+**Error Response (404):**
+```json
+{
+  "status": "error",
+  "error": "Chef with ID 999 not found or inactive",
+  "message": "Chef with ID 999 not found or inactive",
+  "status_code": 404
+}
+```
+
+---
+
+#### **4. Search Chefs** 🌐 Public ⚡
 ```http
 GET /public/search?q=mi&page=1&per_page=20
 ```
@@ -2287,7 +2056,7 @@ GET /public/search?q=mi&page=1&per_page=20
 
 ---
 
-#### **4. Get Filters** 🌐 Public ⚡
+#### **5. Get Filters** 🌐 Public ⚡
 ```http
 GET /public/filters
 ```
@@ -2310,7 +2079,7 @@ GET /public/filters
 
 ---
 
-#### **5. Get Menu Details** 🌐 Public ⚡
+#### **6. Get Menu Details** 🌐 Public ⚡
 ```http
 GET /public/menus/{id}
 ```
@@ -2369,7 +2138,7 @@ GET /public/menus/{id}
 
 ---
 
-#### **6. Get Dish Details** 🌐 Public ⚡
+#### **7. Get Dish Details** 🌐 Public ⚡
 ```http
 GET /public/dishes/{id}
 ```
@@ -2481,7 +2250,7 @@ GET /public/menus/{id}
 
 ---
 
-#### **6. Get Dish Details** 🌐 Public
+#### **7. Get Dish Details** 🌐 Public
 ```http
 GET /public/dishes/{id}
 ```
@@ -2519,7 +2288,7 @@ GET /public/dishes/{id}
 
 ---
 
-#### **6. Get Dish Details**
+#### **7. Get Dish Details**
 ```http
 GET /public/dishes/{dish_id}
 ```
@@ -2840,7 +2609,7 @@ Authorization: Bearer {admin_token}
       {
         "id": 2,
         "username": "admin_user",
-        "email": "admin@lyftercook.com",
+        "email": "admin@Savora.com",
         "role": "admin",
         "is_active": true,
         "has_chef_profile": false,
@@ -3153,6 +2922,6 @@ Authorization: Bearer {admin_token}
 
 **Last Updated:** January 2, 2026  
 **API Version:** 1.0.0  
-**Total Endpoints:** 60 (9 public + 40 chef + 11 admin)  
-**Cached Endpoints:** 8 (marked with ⚡)  
+**Total Endpoints:** 61 (10 public + 40 chef + 11 admin)  
+**Cached Endpoints:** 9 (marked with ⚡)  
 **Status:** 60 endpoints implemented ✅ | 497 tests (85% unit-test coverage)

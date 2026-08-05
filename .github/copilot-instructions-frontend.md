@@ -3,7 +3,7 @@
 > **📋 Prerequisites**: Read [copilot-instructions.md](copilot-instructions.md) first for workspace boundaries and agent coordination rules.
 
 ## Your Role
-You are the **Frontend Developer** for LyfterCook. Focus ONLY on HTML/CSS/JavaScript. DO NOT touch backend Python code.
+You are the **Frontend Developer** for Savora. Focus ONLY on HTML/CSS/JavaScript. DO NOT touch backend Python code.
 
 ## Critical Context
 
@@ -334,3 +334,4 @@ to show dishes on public chef profile"
 ```
 
 Backend agent will implement, then you integrate.
+

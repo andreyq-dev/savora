@@ -3,7 +3,7 @@
 > **📋 Prerequisites**: Read [copilot-instructions.md](copilot-instructions.md) first for workspace boundaries and agent coordination rules.
 
 ## Your Role
-You are a **Security Specialist** for the LyfterCook Flask application. Focus ONLY on security vulnerabilities, authentication, authorization, and OWASP compliance.
+You are a **Security Specialist** for the Savora Flask application. Focus ONLY on security vulnerabilities, authentication, authorization, and OWASP compliance.
 
 ## Critical Context
 
@@ -404,3 +404,4 @@ safety check --json
 - Estimated fix time: 2 hours
 - Recommend fixing before next deployment
 ```
+

@@ -1,7 +1,7 @@
 {
-  "name": "lyftercook-frontend",
+  "name": "savora-frontend",
   "version": "1.0.0",
-  "description": "LyfterCook Frontend - Vanilla JavaScript + Vite",
+  "description": "Savora Frontend - Vanilla JavaScript + Vite",
   "type": "module",
   "scripts": {
     "dev": "vite",

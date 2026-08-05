@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Explorar Chefs - Savora</title>
+    <link rel="stylesheet" href="/styles/main.css">
+    <link rel="stylesheet" href="/styles/components.css">
+</head>
+<body class="theme-monks">
+    <header class="public-nav" data-reveal="down">
+        <div class="container public-nav-inner">
+            <a class="public-logo" href="/" aria-label="Savora">
+                <img src="/utils/logo.svg" alt="Savora logo">
+            </a>
+            <div class="public-nav-links">
+                <a href="/">Inicio</a>
+                <a href="/pages/public/chefs.html">Chefs</a>
+            </div>
+            <div class="public-nav-actions">
+                <a href="/pages/auth/login.html" class="btn btn-outline">Iniciar sesión</a>
+                <a href="/pages/auth/register.html" class="btn btn-primary">Crear cuenta</a>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section class="public-hero public-chefs-hero" data-reveal="up">
+            <div class="container public-hero-grid">
+                <div>
+                    <span class="section-label" data-reveal="down">[DESCUBRIR CHEFS]</span>
+                    <h1 class="public-hero-title" data-reveal="up">Encuentra el chef ideal para tu próximo evento.</h1>
+                    <p class="public-hero-subtitle" data-reveal="up">Explora perfiles activos, especialidades y ubicaciones. Contacta al chef indicado para iniciar la planificación.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="public-section" data-reveal="up">
+            <div class="container">
+                <div class="public-search-panel" data-reveal="up">
+                    <form id="chef-filters-form" class="public-filter-row">
+                        <div class="form-group public-filter-field">
+                            <label for="chef-search">Buscar</label>
+                            <input type="text" id="chef-search" placeholder="Busca por especialidad, bio o ubicación">
+                        </div>
+                        <div class="form-group public-filter-field">
+                            <label for="chef-specialty">Especialidad</label>
+                            <select id="chef-specialty">
+                                <option value="">Todas las especialidades</option>
+                            </select>
+                        </div>
+                        <div class="form-group public-filter-field">
+                            <label for="chef-location">Ubicación</label>
+                            <select id="chef-location">
+                                <option value="">Todas las ubicaciones</option>
+                            </select>
+                        </div>
+                        <div class="form-group public-filter-actions">
+                            <button type="submit" class="btn btn-primary">Buscar chefs</button>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="public-results-bar" data-reveal="up">
+                    <span id="chef-results-count" class="helper-text">Mostrando chefs...</span>
+                    <button type="button" class="btn btn-outline" id="clear-chef-filters">Limpiar filtros</button>
+                </div>
+
+                <p id="chef-loading" class="helper-text" style="margin-top: var(--spacing-4);">Cargando chefs...</p>
+                <div id="chefs-grid" class="chef-grid"></div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="public-footer" data-reveal="up">
+        <div class="container public-footer-grid">
+            <div>
+                <div class="footer-title">Connect</div>
+                <p class="footer-text">hello@savora.com</p>
+                <p class="footer-text">+1 (555) 234-8890</p>
+            </div>
+            <div>
+                <div class="footer-title">Explore</div>
+                <p class="footer-text">Chefs · Menus · Experiences</p>
+                <p class="footer-text">Pricing · FAQs · Reviews</p>
+            </div>
+            <div>
+                <div class="footer-title">Hours</div>
+                <p class="footer-text">Mon–Thu: 9:00 AM – 10:00 PM</p>
+                <p class="footer-text">Fri–Sun: 10:00 AM – 11:30 PM</p>
+            </div>
+        </div>
+    </footer>
+
+    <script type="module" src="/scripts/views/public-chefs.js"></script>
+    <script type="module" src="/scripts/views/scroll-reveal.js"></script>
+</body>
+</html>

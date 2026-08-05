@@ -1,4 +1,4 @@
-"""Config package for LyfterCook application."""
+"""Config package for Savora application."""
 
 from config.settings import Settings
 
@@ -6,3 +6,4 @@ from config.settings import Settings
 settings = Settings()
 
 __all__ = ['settings', 'Settings']
+

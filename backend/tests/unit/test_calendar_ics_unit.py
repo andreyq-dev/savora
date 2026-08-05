@@ -44,7 +44,7 @@ class TestCalendarIcsService:
 
         event = CalendarIcsService.appointment_to_event(appointment, backend_url="http://localhost:5000")
 
-        assert event.uid == "appointment-123@lyftercook"
+        assert event.uid == "appointment-123@Savora"
         assert event.dtstart_utc.tzinfo == timezone.utc
         assert event.dtstart_utc.strftime("%Y%m%dT%H%M%SZ") == "20260110T120000Z"
         assert event.dtend_utc.strftime("%Y%m%dT%H%M%SZ") == "20260110T133000Z"
@@ -53,7 +53,7 @@ class TestCalendarIcsService:
         ics = event.to_ics()
         assert "BEGIN:VCALENDAR" in ics
         assert "BEGIN:VEVENT" in ics
-        assert "UID:appointment-123@lyftercook" in ics
+        assert "UID:appointment-123@Savora" in ics
         assert "DTSTART:20260110T120000Z" in ics
         assert "DTEND:20260110T133000Z" in ics
         # Escaping in SUMMARY/LOCATION
@@ -145,3 +145,4 @@ class TestAppointmentControllerDownloadIcs:
 
         assert resp == ("err", 500)
         mock_err.assert_called_once()
+

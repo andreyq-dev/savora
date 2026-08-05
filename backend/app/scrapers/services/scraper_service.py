@@ -7,6 +7,7 @@ from config.logging import get_logger
 from app.scrapers.repositories import ScraperRepository
 from app.scrapers.models import PriceSource, ScrapedPrice
 from app.core.lib.time_utils import utcnow_aware
+from config import settings
 
 logger = get_logger(__name__)
 
@@ -188,7 +189,7 @@ class ScraperService:
                 "ingredient_name": ingredient_name,
                 "product_name": product_name,
                 "price": price,
-                "currency": "USD",  # TODO: Make configurable
+                "currency": getattr(settings, "SCRAPER_CURRENCY", "USD"),
                 "product_url": search_url,
                 "image_url": image_url,
                 "scraped_at": utcnow_aware()

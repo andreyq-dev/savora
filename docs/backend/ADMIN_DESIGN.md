@@ -2,7 +2,7 @@
 
 ## 📋 Overview
 
-Endpoints administrativos para supervisión, gestión y moderación del sistema LyfterCook.
+Endpoints administrativos para supervisión, gestión y moderación del sistema Savora.
 
 **Estado:** 📝 Design Phase | **Prioridad:** High | **Estimado:** 5-7 días
 
@@ -205,3 +205,4 @@ No en Phase 1. Solo pueden ver.
 
 **Next Step:** Implementar Phase 1  
 **Referencias:** Ver [API_DOCUMENTATION.md](../api/API_DOCUMENTATION.md) sección Admin Module para ejemplos completos de request/response.
+

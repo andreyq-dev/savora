@@ -18,9 +18,9 @@ except Exception as e:
 
 if __name__ == '__main__':
     logger = logging.getLogger(__name__)
-    logger.info("Starting LyfterCook development server on http://localhost:5000")
+    logger.info("Starting Savora development server on http://localhost:5000")
     print("=" * 60)
-    print("LyfterCook Server Starting...")
+    print("Savora Server Starting...")
     print("URL: http://localhost:5000")
     print("Health Check: http://localhost:5000/health")
     print("Test Endpoint: http://localhost:5000/test")
@@ -39,3 +39,4 @@ if __name__ == '__main__':
         print(f"\n\nFATAL SERVER ERROR: {e}")
         traceback.print_exc()
         sys.exit(1)
+

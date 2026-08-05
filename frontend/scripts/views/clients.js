@@ -13,6 +13,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const loadingMessage = document.getElementById('loading-message');
     const submitButton = addClientForm.querySelector('button');
 
+    const createModal = document.getElementById('create-client-modal');
+    const openCreateButton = document.getElementById('open-create-client');
+    const closeCreateButton = document.getElementById('create-client-close');
+
     // Modal Elements
     const editModal = document.getElementById('edit-client-modal');
     const editClientForm = document.getElementById('edit-client-form');
@@ -70,7 +74,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
                 loadingMessage.style.display = 'none';
             } else {
-                loadingMessage.textContent = 'No clients found. Add one using the form above.';
+                loadingMessage.textContent = 'No clients found. Use “New Client” to add one.';
             }
         } catch (error) {
             console.error('Failed to fetch clients:', error);
@@ -101,6 +105,7 @@ document.addEventListener('DOMContentLoaded', () => {
         try {
             await api.post('/clients', clientData);
             addClientForm.reset(); // Clear the form
+            createModal.style.display = 'none';
             fetchAndRenderClients(); // Refresh the list
         } catch (error) {
             console.error('Failed to add client:', error);
@@ -205,11 +210,22 @@ document.addEventListener('DOMContentLoaded', () => {
     editClientForm.addEventListener('submit', handleUpdateClient);
     clientsTableBody.addEventListener('click', handleTableClick);
 
+    openCreateButton.addEventListener('click', () => {
+        errorMessage.textContent = '';
+        errorMessage.style.display = 'none';
+        createModal.style.display = 'block';
+    });
+
+    closeCreateButton.addEventListener('click', () => createModal.style.display = 'none');
+
     // Modal close listeners
     closeButton.addEventListener('click', () => editModal.style.display = 'none');
     window.addEventListener('click', (event) => {
         if (event.target == editModal) {
             editModal.style.display = 'none';
+        }
+        if (event.target == createModal) {
+            createModal.style.display = 'none';
         }
     });
 

@@ -289,8 +289,9 @@ ALTER TABLE integrations.scraped_products ALTER COLUMN product_name TYPE VARCHAR
 ---
 
 **Report Generated**: 2025-12-19  
-**Database**: lyftercook (PostgreSQL)  
+**Database**: Savora (PostgreSQL)  
 **Schemas Audited**: auth, core, integrations, admin  
 **Total Tables**: 11  
 **Issues Found**: 2 (CRITICAL and MEDIUM)  
 **Issues Resolved**: 2 (100%)
+

@@ -103,6 +103,8 @@ def create_tables():
     logger.info("Database tables created successfully")
 
 
+
+
 def drop_tables():
     """
     Drop all database tables.

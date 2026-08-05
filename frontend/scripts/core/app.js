@@ -1,7 +1,7 @@
 // App initialization and core functionality
 import { appState } from './state.js';
 
-console.log('LyfterCook Frontend - v1.0.0');
+console.log('Savora Frontend - v1.0.0');
 
 // User Menu Dropdown
 const userMenuButton = document.getElementById('user-menu-button');

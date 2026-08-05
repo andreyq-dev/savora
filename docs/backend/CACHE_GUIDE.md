@@ -1,6 +1,6 @@
 # 🚀 Redis Cache System Guide
 
-Complete guide to LyfterCook's Redis-based caching system covering implementation, naming conventions, and consistency strategies.
+Complete guide to Savora's Redis-based caching system covering implementation, naming conventions, and consistency strategies.
 
 ---
 
@@ -729,3 +729,4 @@ print(cache.get('test:key:1'))  # None
 
 **Last Updated:** January 2, 2026  
 **Version:** v1
+
