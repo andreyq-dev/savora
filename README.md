@@ -1,4 +1,6 @@
-# CaterPro
+# Savora (formerly CaterPro)
+
+> Earlier work (2025, Lyfter full-stack program). For my current work, see [everna-platform](https://github.com/andreyques41/everna-platform) and my [portfolio](https://andreyques41.github.io).
 
 > Professional catering platform for managing chef services, menus, and client quotations
 
@@ -242,5 +244,5 @@ MIT License - See [LICENSE](LICENSE) for details.
 
 ---
 
-*Developed as part of the Lifter Software Engineering Program (Costa Rica, 2024-2025)*
+*Developed as part of the Lyfter Software Engineering Program (Costa Rica)*
 
